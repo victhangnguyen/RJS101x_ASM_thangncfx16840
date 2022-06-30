@@ -32,7 +32,9 @@ class App extends React.Component {
       <div className="App">
         <Navbar dark color="primary">
           <div className="container-fluid">
-            <NavbarBrand href="/">Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
+            <NavbarBrand href="/">
+              <div className="logo"><img src="assets/images/logo192.png" alt="" /></div>
+              Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
           </div>
         </Navbar>
         <Setting setColumn={(column) => this.setColumn(column)} />
