@@ -21,10 +21,9 @@ export default class StaffDetail extends Component {
   renderStaff(staff) {
     //! gaurd clause
     if (staff === null) return <div></div>;
-    console.log(staff);
 
     return (
-      <Card className="mt-2">
+      <Card className="mt-2 border border-2 border-primary">
         <CardBody>
           <CardTitle className="fw-bold">Họ và tên: {staff.name}</CardTitle>
           <CardText>Ngày sinh: {this.getddmmyyyy(staff.doB)}</CardText>
@@ -38,6 +37,7 @@ export default class StaffDetail extends Component {
       </Card>
     );
   }
+
 
   render() {
     return <div className="col-md-6">{this.renderStaff(this.props.staff)}</div>;

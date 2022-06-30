@@ -13,10 +13,19 @@ class StaffList extends React.Component {
   }
 
   renderStaffCard(staff) {
-    // console.log('this.state ID: ', this.state.selectedStaff?.id); //! __DEBUG __state
-    // console.log(staff.id)
     return (
-      <div key={staff.id} className="col-md-6">
+      <div
+        key={staff.id}
+        className={`${
+          this.props.column === 2
+            ? 'col-md-6'
+            : this.props.column === 3
+            ? 'col-md-4'
+            : this.props.column === 6
+            ? 'col-md-2'
+            : ''
+        }`}
+      >
         <Card
           className={`my-1 border border-2 ${
             staff.id === this.state.selectedStaff?.id ? 'border-danger' : ''
@@ -42,6 +51,7 @@ class StaffList extends React.Component {
   }
 
   render() {
+    console.log('this.props: ', this.props); //! __DEBUG __props
     const staffList = this.props.staffs.map((staff) =>
       this.renderStaffCard(staff)
     );
@@ -49,7 +59,10 @@ class StaffList extends React.Component {
       <div className="container">
         <div className="row">{staffList}</div>
         <div className="row">
-          <StaffDetail staff={this.state.selectedStaff} />
+          <StaffDetail
+            staff={this.state.selectedStaff}
+            column={this.props.column}
+          />
         </div>
       </div>
     );

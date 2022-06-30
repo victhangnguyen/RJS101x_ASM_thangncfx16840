@@ -5,14 +5,28 @@ import { Navbar, NavbarBrand } from 'reactstrap';
 
 //! import Components
 import StaffList from './components/StaffListComponent';
+import Setting from './components/SettingComponent';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       staffs: STAFFS,
+      setting: {
+        column: 2, //! init column is equal to 2
+      },
     };
   }
+
+  setColumn(column) {
+    // console.log('nowThis: ', this); //! __DEBUG __this
+    this.setState({
+      setting: {
+        column: column,
+      },
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -21,7 +35,11 @@ class App extends React.Component {
             <NavbarBrand href="/">Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
           </div>
         </Navbar>
-        <StaffList staffs={this.state.staffs} />
+        <Setting setColumn={(column) => this.setColumn(column)} />
+        <StaffList
+          staffs={this.state.staffs}
+          column={this.state.setting.column}
+        />
       </div>
     );
   }
