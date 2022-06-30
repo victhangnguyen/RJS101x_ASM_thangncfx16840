@@ -20,8 +20,8 @@ export default class SettingComponent extends React.Component {
         <div className="row">
           <div className="col-7 my-4"></div>
           <div className="col-5 my-4">
-            <div className="d-flex">
-              <p style={{ width: '10rem' }}>Số cột: </p>
+            <div className="d-flex justify-content align-items-center">
+              <span style={{marginRight: '5px', width: '8rem' }}>Số cột: </span>
               <select
                 className="form-select"
                 onChange={(e) => this.handleChange(e)}
