@@ -14,6 +14,27 @@ export default class SettingComponent extends React.Component {
     this.setColumn(e.target.value);
   }
 
+  renderOption() {
+    const viewportWidth = window.innerWidth;
+    //! responsive for tablet
+    const tabletWidth = 768;
+    if (viewportWidth > tabletWidth) {
+      return (
+        <select className="form-select" onChange={(e) => this.handleChange(e)}>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={6}>6</option>
+        </select>
+      );
+    } else {
+      return (
+        <select className="form-select" onChange={(e) => this.handleChange(e)}>
+          <option value={1}>1</option>
+        </select>
+      );
+    }
+  }
+
   render() {
     return (
       <div className="container">
@@ -22,14 +43,7 @@ export default class SettingComponent extends React.Component {
           <div className="col-5 my-4">
             <div className="d-flex">
               <p style={{ width: '10rem' }}>Số cột: </p>
-              <select
-                className="form-select"
-                onChange={(e) => this.handleChange(e)}
-              >
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={6}>6</option>
-              </select>
+              {this.renderOption()}
             </div>
           </div>
         </div>
