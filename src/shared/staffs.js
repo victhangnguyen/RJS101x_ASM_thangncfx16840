@@ -57,7 +57,7 @@ export const STAFFS = [
   {
     id: 2,
     name: 'Nguyễn Văn C',
-    doB: '2001-01-01T08:59:00.000Z',
+    doB: '2002-02-02T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
     department: DEPARTMENTS[3],
@@ -68,7 +68,7 @@ export const STAFFS = [
   {
     id: 3,
     name: 'Nguyễn Văn D',
-    doB: '2002-01-01T08:59:00.000Z',
+    doB: '2003-03-03T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
     department: DEPARTMENTS[2],
@@ -79,7 +79,7 @@ export const STAFFS = [
   {
     id: 4,
     name: 'Nguyễn Văn E',
-    doB: '1999-01-01T08:59:00.000Z',
+    doB: '1999-04-04T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
     department: DEPARTMENTS[2],

@@ -24,7 +24,7 @@ export default class StaffDetail extends Component {
     console.log(staff);
 
     return (
-      <Card>
+      <Card className="mt-2">
         <CardBody>
           <CardTitle className="fw-bold">Họ và tên: {staff.name}</CardTitle>
           <CardText>Ngày sinh: {this.getddmmyyyy(staff.doB)}</CardText>
@@ -40,11 +40,6 @@ export default class StaffDetail extends Component {
   }
 
   render() {
-    return (
-      <div className="row">
-        <div className="col-md-6">{this.renderStaff(this.props.staff)}</div>
-        <div className="col-md-6"></div>
-      </div>
-    );
+    return <div className="col-md-6">{this.renderStaff(this.props.staff)}</div>;
   }
 }
