@@ -9,6 +9,10 @@
   width: 100%;
 }
 
+.card-title {
+  pointer-events: fill !important;
+}
+
 .card.staff {
   transition: 0.2s;
 }
