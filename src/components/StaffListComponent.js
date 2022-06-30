@@ -3,7 +3,7 @@ import { Card, CardBody, CardTitle } from 'reactstrap';
 //! imp Components
 import StaffDetail from './StaffDetailComponent';
 
-//! create Component named StaffList
+//! create Component named StaffList (Container Component)
 class StaffList extends React.Component {
   constructor(props) {
     super(props);
@@ -27,16 +27,12 @@ class StaffList extends React.Component {
         }`}
       >
         <Card
-          className={`my-1 border border-2 ${
-            staff.id === this.state.selectedStaff?.id ? 'border-danger' : ''
+          className={`staff my-1 border border-2 ${
+            staff.id === this.state.selectedStaff?.id ? 'active' : ''
           }`}
           onClick={() => this.onStaffSelect(staff)}
         >
-          <CardBody
-            className={`p-2 ${
-              staff.id === this.state.selectedStaff?.id ? 'bg-light' : ''
-            }`}
-          >
+          <CardBody className="p-2">
             <CardTitle className="mb-0">{staff.name}</CardTitle>
           </CardBody>
         </Card>
@@ -51,7 +47,6 @@ class StaffList extends React.Component {
   }
 
   render() {
-    console.log('this.props: ', this.props); //! __DEBUG __props
     const staffList = this.props.staffs.map((staff) =>
       this.renderStaffCard(staff)
     );
