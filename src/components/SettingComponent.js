@@ -7,7 +7,7 @@ export default class SettingComponent extends React.Component {
 
   setColumn(column) {
     // console.log('nowThis: ', this); //! __DEBUG __this
-    this.props.setColumn(Number(column));
+    this.props.setColumn(column);
   }
 
   handleChange(e) {
@@ -21,6 +21,7 @@ export default class SettingComponent extends React.Component {
     if (viewportWidth > tabletWidth) {
       return (
         <select className="form-select" onChange={(e) => this.handleChange(e)}>
+          <option value="default">Default</option>
           <option value={2}>2</option>
           <option value={3}>3</option>
           <option value={6}>6</option>
@@ -29,7 +30,7 @@ export default class SettingComponent extends React.Component {
     } else {
       return (
         <select className="form-select" onChange={(e) => this.handleChange(e)}>
-          <option value={1}>1</option>
+          <option value="default">Default</option>
         </select>
       );
     }
@@ -42,7 +43,9 @@ export default class SettingComponent extends React.Component {
           <div className="col-7 my-4"></div>
           <div className="col-5 my-4">
             <div className="d-flex justify-content align-items-center">
-              <span style={{marginRight: '5px', width: '8rem' }}>Số cột: </span>
+              <span style={{ marginRight: '5px', width: '8rem' }}>
+                Số cột:{' '}
+              </span>
               {this.renderOption()}
             </div>
           </div>

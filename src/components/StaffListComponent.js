@@ -16,13 +16,15 @@ class StaffList extends React.Component {
     return (
       <div
         key={staff.id}
-        className={`col-12 col-md${
-          this.props.column === 2
-            ? '-6'
-            : this.props.column === 3
-            ? '-4'
-            : this.props.column === 6
-            ? '-2'
+        className={`${
+          this.props.column === 'default'
+            ? 'col-12 col-md-6 col-lg-4'
+            : this.props.column === '2'
+            ? 'col-12 col-md-6'
+            :  this.props.column === '3'
+            ? 'col-12 col-md-4'
+            : this.props.column === '6'
+            ? 'col-12 col-md-2'
             : ''
         }`}
       >

@@ -13,7 +13,7 @@ class App extends React.Component {
     this.state = {
       staffs: STAFFS,
       setting: {
-        column: 2, //! init column is equal to 2
+        column: 'default', //! init column is equal to 2
       },
     };
   }
