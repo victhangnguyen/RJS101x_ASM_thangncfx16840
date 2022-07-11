@@ -3,36 +3,24 @@ import { Card, CardBody, CardTitle, CardHeader, CardImg } from 'reactstrap';
 //! imp Components
 import StaffDetail from './StaffDetailComponent';
 
-//! create Component named StaffList (Container Component)
-class StaffList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedStaff: null, //! init null
-    };
-  }
+//! Presentational Function
 
-  renderStaffCard(staff, index) {
+//! Container Function
+function StaffListComponent(props) {
+  const [currentStaff, setCurrentStaff] = React.useState(null);
+
+  const onSelectedStaff = function (staffId) {
+    setCurrentStaff(staffId);
+  };
+
+  const renderStaffCard = function (staff, index) {
     return (
-      <div
-        key={staff.id}
-        className={`${
-          this.props.column === 'default'
-            ? 'col-12 col-md-6 col-lg-4'
-            : this.props.column === '2'
-            ? 'col-12 col-md-6'
-            : this.props.column === '3'
-            ? 'col-12 col-md-4'
-            : this.props.column === '6'
-            ? 'col-12 col-md-2'
-            : ''
-        }`}
-      >
+      <div key={staff.id} className="col-6 col-md-4 col-lg-2">
         <Card
           className={`staff my-2 border border-2 ${
-            staff.id === this.state.selectedStaff?.id ? 'active' : ''
+            staff.id === currentStaff ? 'active' : ''
           }`}
-          onClick={() => this.onStaffSelect(staff)}
+          onClick={onSelectedStaff.bind(this, staff.id)}
         >
           <CardHeader className="px-3">Nhân viên {index + 1}</CardHeader>
           <CardBody className="px-3">
@@ -50,30 +38,49 @@ class StaffList extends React.Component {
         </Card>
       </div>
     );
-  }
+  };
 
-  onStaffSelect(staff) {
-    this.setState({
-      selectedStaff: staff,
-    });
-  }
+  const staffList = props.staffs.map((staff, index) =>
+    renderStaffCard(staff, index)
+  );
 
-  render() {
-    const staffList = this.props.staffs.map((staff, index) =>
-      this.renderStaffCard(staff, index)
-    );
-    return (
-      <div className="container">
-        <div className="row">{staffList}</div>
-        <div className="row">
-          <StaffDetail
-            staff={this.state.selectedStaff}
-            column={this.props.column}
-          />
-        </div>
-      </div>
-    );
-  }
+  return (
+    <div className="container">
+      <div className="row">{staffList}</div>
+      {/* <div className="row">
+        <StaffDetail
+          staff={this.state.selectedStaff}
+          column={this.props.column}
+        />
+      </div> */}
+    </div>
+  );
 }
 
-export default StaffList;
+export default StaffListComponent;
+
+// class StaffList extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       selectedStaff: null, //! init null
+//     };
+//   }
+
+//   render() {
+//
+//     return (
+//       <div className="container">
+//         <div className="row">{staffList}</div>
+//         <div className="row">
+//           <StaffDetail
+//             staff={this.state.selectedStaff}
+//             column={this.props.column}
+//           />
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
+// export default StaffList;

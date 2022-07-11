@@ -9,6 +9,14 @@
   width: 100%;
 }
 
+.navbar {
+  background-color: #1b253c;
+}
+/* .nav-item {
+  color: white;
+  
+} */
+
 .card-title {
   pointer-events: fill !important;
 }
@@ -43,9 +51,16 @@
   width: 50%;
 }
 
-
 @media only screen and (min-width: 768px) {
   .card-avatar > img {
     width: 100%;
   }
 }
+
+.footer {
+  background-color: #d1c4e9;
+  margin: 0px auto;
+  padding: 20px 0px 20px 0px;
+}
+
+/* page not found */

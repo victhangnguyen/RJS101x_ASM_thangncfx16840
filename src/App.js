@@ -1,47 +1,61 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
+
+//! imp Components
+import Main from './components/MainComponent';
+import Staff from './components/StaffListComponent';
+import Department from './components/DepartmentComponent';
+import Salary from './components/SalaryComponent';
+
+//! imp Datas
 import { STAFFS } from './shared/staffs';
-import { Navbar, NavbarBrand } from 'reactstrap';
+import PageNotFound from './pages/PageNotFound';
 
-//! import Components
-import StaffList from './components/StaffListComponent';
-import Setting from './components/SettingComponent';
+// function App() {
+//   return (
+//     <div className="App">
+//       <BrowserRouter>
+//         <Routes>
+//           <Route path="/" element={<Main />}>
+//             <Route path="staff" element={<Staff />}>
+//               {/* Route id */}
+//             </Route>
+//           </Route>
+//         </Routes>
+//       </BrowserRouter>
+//     </div>
+//   );
+// }
 
-class App extends React.Component {
+// export default App;
+
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       staffs: STAFFS,
-      setting: {
-        column: 'default', //! init column is equal to 2
-      },
     };
   }
-
-  setColumn(column) {
-    // console.log('nowThis: ', this); //! __DEBUG __this
-    this.setState({
-      setting: {
-        column: column,
-      },
-    });
-  }
-
   render() {
     return (
       <div className="App">
-        <Navbar dark color="primary">
-          <div className="container-fluid">
-            <NavbarBrand href="/">
-              <div className="logo"><img src="assets/images/logo192.png" alt="" /></div>
-              Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
-          </div>
-        </Navbar>
-        <Setting setColumn={(column) => this.setColumn(column)} />
-        <StaffList
-          staffs={this.state.staffs}
-          column={this.state.setting.column}
-        />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Main />}>
+              <Route index element={<Staff staffs={this.state.staffs} />} />
+              <Route
+                path="staff"
+                element={<Staff staffs={this.state.staffs} />}
+              >
+                {/* Route id */}
+              </Route>
+              <Route path="department" element={<Department />} />
+              <Route path="salary" element={<Salary />} />
+            </Route>
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
       </div>
     );
   }
