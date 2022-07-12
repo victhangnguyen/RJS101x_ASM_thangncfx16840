@@ -22,7 +22,7 @@ function StaffListComponent(props) {
           // onClick={onSelectedStaff.bind(this, staff.id)}
         >
           <Link to={`/staffs/${staff.id}`}>
-            <CardHeader>ID: {staff.id}</CardHeader>
+            <CardHeader>#{staff.id}</CardHeader>
             <CardBody>
               <div className="row">
                 <div className="col-12">

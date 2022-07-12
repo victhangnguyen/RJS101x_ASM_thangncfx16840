@@ -1,6 +1,7 @@
 :root {
   --color-main: #93c952;
   --color-dark: #222a35;
+  --color-dark-2: #57595b;
 }
 
 img,
@@ -40,6 +41,8 @@ svg {
 .nav-link.active {
   border-bottom: 2px solid var(--color-main);
 }
+.card {
+}
 
 .card a {
   text-decoration: none;
@@ -49,20 +52,26 @@ svg {
   pointer-events: fill !important;
 }
 
+.card-body {
+  color: var(--color-dark);
+}
+
 .card.card-staff {
   transition: 0.2s;
 }
 
 .card.card-staff:hover {
-  border: 2px solid var(--color-main) !important;
+  border: 3px solid var(--color-dark) !important;
 
-  transform: scale(1.02);
+  transform: scale(1.04);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
   background-color: #f6f6f6;
 }
 
 .card-header {
+  background-color: var(--color-dark-2);
   padding: 0.2rem 0.5rem;
+  color: white;
 }
 
 .card-avatar {

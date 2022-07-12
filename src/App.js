@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 
 //! imp Components
@@ -26,7 +26,7 @@ export class App extends React.Component {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Main />}>
-              <Route index element={<Staff staffs={this.state.staffs} />} />
+              <Route index element={<Navigate to="/staffs" />} />
               <Route
                 path="staffs"
                 element={<Staff staffs={this.state.staffs} />}
