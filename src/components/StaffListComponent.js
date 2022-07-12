@@ -18,19 +18,19 @@ function StaffListComponent(props) {
     return (
       <div key={staff.id} className="col-6 col-md-4 col-lg-2">
         <Card
-          className="staff my-2 border border-2"
+          className="card-staff my-2 border border-2"
           // onClick={onSelectedStaff.bind(this, staff.id)}
         >
           <Link to={`/staffs/${staff.id}`}>
-            <CardHeader className="px-3">ID: {staff.id}</CardHeader>
-            <CardBody className="px-3">
+            <CardHeader>ID: {staff.id}</CardHeader>
+            <CardBody>
               <div className="row">
-                <div className="col-4">
+                <div className="col-12">
                   <div className="card-avatar">
                     <img src="assets/images/avatar.png" alt="" />
                   </div>
                 </div>
-                <div className="col-8">
+                <div className="col-12">
                   <CardTitle className="fw-bold mb-0">{staff.name}</CardTitle>
                 </div>
               </div>

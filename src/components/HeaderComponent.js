@@ -10,6 +10,27 @@ import {
 } from 'reactstrap';
 
 function Header(props) {
+  //! effect NavLink
+  const [selectedNav, SetSelectedNav] = React.useState(0);
+
+  const navList = [
+    {
+      navId: 0,
+      navName: 'Nhân viên',
+      navLink: '/staffs',
+    },
+    {
+      navId: 1,
+      navName: 'Phòng Ban',
+      navLink: '/department',
+    },
+    {
+      navId: 2,
+      navName: 'Bảng Lương',
+      navLink: '/salary',
+    },
+  ];
+
   return (
     <div className="header">
       <Navbar dark expand="md">
@@ -24,21 +45,15 @@ function Header(props) {
         <NavbarToggler onClick={() => {}} />
         <Collapse navbar>
           <Nav navbar>
-            <NavItem>
-              <NavLink className="nav-link" to="/staffs">
-                Nhân Viên
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className="nav-link" to="/department">
-                Phòng Ban
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className="nav-link" to="/salary">
-                Bảng Lương
-              </NavLink>
-            </NavItem>
+            {navList.map((nav) => {
+              return (
+                <NavItem key={nav.navId}>
+                  <NavLink className="nav-link" to={nav.navLink}>
+                    {nav.navName}
+                  </NavLink>
+                </NavItem>
+              );
+            })}
           </Nav>
         </Collapse>
       </Navbar>
