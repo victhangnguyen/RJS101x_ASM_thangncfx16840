@@ -16,7 +16,7 @@ function Header(props) {
         <NavbarBrand className="mr-auto" href="/">
           <div className="logo">
             <img
-              src="assets/images/logo192.png"
+              src="/assets/images/logo192.png"
               alt="Ứng dụng quản lý nhân sự v1.0"
             />
           </div>
@@ -25,7 +25,7 @@ function Header(props) {
         <Collapse navbar>
           <Nav navbar>
             <NavItem>
-              <NavLink className="nav-link" to="/staff">
+              <NavLink className="nav-link" to="/staffs">
                 Nhân Viên
               </NavLink>
             </NavItem>

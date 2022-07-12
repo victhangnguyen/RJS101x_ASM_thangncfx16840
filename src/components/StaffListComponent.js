@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardTitle, CardHeader, CardImg } from 'reactstrap';
+import { Link } from 'react-router-dom';
 //! imp Components
 import StaffDetail from './StaffDetailComponent';
 
@@ -7,41 +8,41 @@ import StaffDetail from './StaffDetailComponent';
 
 //! Container Function
 function StaffListComponent(props) {
-  const [currentStaff, setCurrentStaff] = React.useState(null);
+  // const [selectedStaff, setSelectedStaff] = React.useState(null);
 
-  const onSelectedStaff = function (staffId) {
-    setCurrentStaff(staffId);
-  };
+  // const onSelectedStaff = function (staffId) {
+  //   setSelectedStaff(staffId);
+  // };
 
   const staffList = props.staffs.map((staff) => {
     return (
       <div key={staff.id} className="col-6 col-md-4 col-lg-2">
         <Card
-          className={`staff my-2 border border-2 ${
-            staff.id === currentStaff ? 'active' : ''
-          }`}
-          onClick={onSelectedStaff.bind(this, staff.id)}
+          className="staff my-2 border border-2"
+          // onClick={onSelectedStaff.bind(this, staff.id)}
         >
-          <CardHeader className="px-3">ID: {staff.id}</CardHeader>
-          <CardBody className="px-3">
-            <div className="row">
-              <div className="col-4">
-                <div className="card-avatar">
-                  <img src="assets/images/avatar.png" alt="" />
+          <Link to={`/staffs/${staff.id}`}>
+            <CardHeader className="px-3">ID: {staff.id}</CardHeader>
+            <CardBody className="px-3">
+              <div className="row">
+                <div className="col-4">
+                  <div className="card-avatar">
+                    <img src="assets/images/avatar.png" alt="" />
+                  </div>
+                </div>
+                <div className="col-8">
+                  <CardTitle className="fw-bold mb-0">{staff.name}</CardTitle>
                 </div>
               </div>
-              <div className="col-8">
-                <CardTitle className="fw-bold mb-0">{staff.name}</CardTitle>
-              </div>
-            </div>
-          </CardBody>
+            </CardBody>
+          </Link>
         </Card>
       </div>
     );
   });
 
   return (
-    <div className="container">
+    <div className="container-fuild my-3 mx-5">
       <div className="row">{staffList}</div>
       {/* <div className="row">
         <StaffDetail

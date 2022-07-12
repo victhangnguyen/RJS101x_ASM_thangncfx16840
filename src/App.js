@@ -7,6 +7,7 @@ import Main from './components/MainComponent';
 import Staff from './components/StaffListComponent';
 import Department from './components/DepartmentComponent';
 import Salary from './components/SalaryComponent';
+import StaffDetail from './components/StaffDetailComponent';
 
 //! imp Datas
 import { STAFFS } from './shared/staffs';
@@ -27,15 +28,15 @@ export class App extends React.Component {
             <Route path="/" element={<Main />}>
               <Route index element={<Staff staffs={this.state.staffs} />} />
               <Route
-                path="staff"
+                path="staffs"
                 element={<Staff staffs={this.state.staffs} />}
-              >
-                {/* Route id */}
-              </Route>
+              />
+              <Route path="staffs/:staffId" element={<StaffDetail />} />
+
               <Route path="department" element={<Department />} />
               <Route path="salary" element={<Salary />} />
             </Route>
-            <Route path="*" element={<PageNotFound />} />
+            {/* <Route path="*" element={<PageNotFound />} /> */}
           </Routes>
         </BrowserRouter>
       </div>

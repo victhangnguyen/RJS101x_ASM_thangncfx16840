@@ -1,4 +1,8 @@
 import { Card, CardBody, CardTitle, CardText, CardHeader } from 'reactstrap';
+import { useParams } from 'react-router-dom';
+
+//! imp Datas
+import { STAFFS } from '../shared/staffs';
 
 function getddmmyyyy(isoDate) {
   const date = new Date(isoDate);
@@ -12,21 +16,22 @@ function getddmmyyyy(isoDate) {
   return dd + '/' + mm + '/' + yyyy;
 }
 
-function renderStaff(staff) {
+function renderStaff(staffId) {
   //! gaurd clause
-  if (staff === null) return <div></div>;
+  if (staffId === null) return <div></div>;
 
+  const staff = STAFFS.find((staff) => String(staff.id) === staffId);
   return (
-    <Card className="mt-2 border border-2 border-secondary">
+    <Card>
       <CardHeader className="px-3">Thông tin nhân viên</CardHeader>
       <CardBody className="px-3">
         <div className="row">
-          <div className="col-4">
+          <div className="col-12 col-md-4 col-lg-3">
             <div className="card-avatar">
-              <img src="assets/images/avatar.png" alt="" />
+              <img src="/assets/images/avatar.png" alt="" />
             </div>
           </div>
-          <div className="col-8">
+          <div className="col-12 col-md-8 col-lg-9">
             <CardTitle className="fw-bold">Họ và tên: {staff.name}</CardTitle>
             <CardText>Ngày sinh: {getddmmyyyy(staff.doB)}</CardText>
             <CardText>
@@ -44,7 +49,15 @@ function renderStaff(staff) {
 
 //! Presentational Component
 function StaffDetail(props) {
-  return <div className="col-md-6">{renderStaff(props.staff)}</div>;
+  const params = useParams();
+  console.log('params: ', params); //! __DEBUG __params
+  return (
+    <div className="container-fuild my-3 mx-5">
+      <div className="row">
+        <div className="col-12">{renderStaff(params.staffId)}</div>
+      </div>
+    </div>
+  );
 }
 
 export default StaffDetail;

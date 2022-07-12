@@ -23,9 +23,7 @@ export class Main extends React.Component {
     return (
       <React.Fragment>
         <Header />
-        <div className="container">
-          <Outlet />
-        </div>
+        <Outlet />
         <Footer />
       </React.Fragment>
     );
