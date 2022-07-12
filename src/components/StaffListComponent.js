@@ -13,7 +13,7 @@ function StaffListComponent(props) {
     setCurrentStaff(staffId);
   };
 
-  const renderStaffCard = function (staff, index) {
+  const staffList = props.staffs.map((staff) => {
     return (
       <div key={staff.id} className="col-6 col-md-4 col-lg-2">
         <Card
@@ -22,7 +22,7 @@ function StaffListComponent(props) {
           }`}
           onClick={onSelectedStaff.bind(this, staff.id)}
         >
-          <CardHeader className="px-3">Nhân viên {index + 1}</CardHeader>
+          <CardHeader className="px-3">ID: {staff.id}</CardHeader>
           <CardBody className="px-3">
             <div className="row">
               <div className="col-4">
@@ -38,11 +38,7 @@ function StaffListComponent(props) {
         </Card>
       </div>
     );
-  };
-
-  const staffList = props.staffs.map((staff, index) =>
-    renderStaffCard(staff, index)
-  );
+  });
 
   return (
     <div className="container">
@@ -58,29 +54,3 @@ function StaffListComponent(props) {
 }
 
 export default StaffListComponent;
-
-// class StaffList extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       selectedStaff: null, //! init null
-//     };
-//   }
-
-//   render() {
-//
-//     return (
-//       <div className="container">
-//         <div className="row">{staffList}</div>
-//         <div className="row">
-//           <StaffDetail
-//             staff={this.state.selectedStaff}
-//             column={this.props.column}
-//           />
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
-// export default StaffList;

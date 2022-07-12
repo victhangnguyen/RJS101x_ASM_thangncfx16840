@@ -12,24 +12,6 @@ import Salary from './components/SalaryComponent';
 import { STAFFS } from './shared/staffs';
 import PageNotFound from './pages/PageNotFound';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <BrowserRouter>
-//         <Routes>
-//           <Route path="/" element={<Main />}>
-//             <Route path="staff" element={<Staff />}>
-//               {/* Route id */}
-//             </Route>
-//           </Route>
-//         </Routes>
-//       </BrowserRouter>
-//     </div>
-//   );
-// }
-
-// export default App;
-
 export class App extends React.Component {
   constructor(props) {
     super(props);
