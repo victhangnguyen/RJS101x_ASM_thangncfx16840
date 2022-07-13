@@ -36,7 +36,7 @@ export class App extends React.Component {
               <Route path="department" element={<Department />} />
               <Route path="salary" element={<Salary />} />
             </Route>
-            {/* <Route path="*" element={<PageNotFound />} /> */}
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
       </div>

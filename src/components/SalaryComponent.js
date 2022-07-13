@@ -1,6 +1,13 @@
 import React from 'react';
 import { STAFFS } from '../shared/staffs';
-import { Card, CardBody, CardHeader, CardFooter } from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardFooter,
+  Breadcrumb,
+  BreadcrumbItem,
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 function numberWithCommas(x) {
@@ -41,6 +48,12 @@ function SalaryComponent() {
   ));
   return (
     <div className="container-fuild my-3 mx-5">
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <Link to="/staffs">Nhân viên</Link>
+        </BreadcrumbItem>
+        <BreadcrumbItem active>Bảng lương</BreadcrumbItem>
+      </Breadcrumb>
       <div className="hm-title">
         <h3>Bảng lương</h3>
         <hr />

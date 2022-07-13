@@ -41,19 +41,14 @@ svg {
 .nav-link.active {
   border-bottom: 2px solid var(--color-main);
 }
-.card {
-}
 
 .card a {
   text-decoration: none;
+  color: var(--color-dark);
 }
 
 .card-title {
   pointer-events: fill !important;
-}
-
-.card-body {
-  color: var(--color-dark);
 }
 
 .card.card-staff {
