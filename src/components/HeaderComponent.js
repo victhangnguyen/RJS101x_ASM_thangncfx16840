@@ -11,6 +11,7 @@ import {
 
 function Header(props) {
   //! effect NavLink
+  const [isNavOpen, setIsNavOpen] = React.useState(false);
   const [selectedNav, SetSelectedNav] = React.useState(0);
 
   const navList = [
@@ -42,9 +43,13 @@ function Header(props) {
             />
           </div>
         </NavbarBrand>
-        <NavbarToggler onClick={() => {}} />
-        <Collapse navbar>
-          <Nav navbar>
+        <NavbarToggler
+          onClick={() => {
+            setIsNavOpen(!isNavOpen);
+          }}
+        />
+        <Collapse navbar isOpen={isNavOpen}>
+          <Nav navbar className="me-auto mb-4 mb-md-0">
             {navList.map((nav) => {
               return (
                 <NavItem key={nav.navId}>
@@ -55,6 +60,17 @@ function Header(props) {
               );
             })}
           </Nav>
+          <form className="d-flex">
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button className="btn btn-outline-light" type="submit">
+              Search
+            </button>
+          </form>
         </Collapse>
       </Navbar>
     </div>
