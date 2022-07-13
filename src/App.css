@@ -22,7 +22,7 @@ svg {
 
 .navbar {
   background-color: var(--color-dark);
-  padding: 0.25rem;
+  padding: 0.5rem;
   border-bottom: 5px solid var(--color-main);
 }
 
@@ -61,7 +61,7 @@ svg {
 }
 
 .card.card-staff:hover {
-  border: 3px solid var(--color-dark) !important;
+  border: 3px solid var(--color-main) !important;
 
   transform: scale(1.04);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
@@ -72,6 +72,10 @@ svg {
   background-color: var(--color-dark-2);
   padding: 0.2rem 0.5rem;
   color: white;
+}
+
+.card-footer > p {
+  margin: 0;
 }
 
 .card-avatar {

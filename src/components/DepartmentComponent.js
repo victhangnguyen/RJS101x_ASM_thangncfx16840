@@ -1,22 +1,20 @@
 import React from 'react';
 import { DEPARTMENTS } from '../shared/staffs';
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-} from 'reactstrap';
+import { Card, CardHeader, CardBody } from 'reactstrap';
 
 //! presentational function component
 function RenderDepartment({ department }) {
   return (
     <div className="col-12 col-md-6 col-lg-4">
       <Card className="my-2">
-        <CardHeader>#{department.id}</CardHeader>
+        <CardHeader>
+          {department.name} (#{department.id})
+        </CardHeader>
         <CardBody>
-          <CardTitle className='fw-bold'>Tên phòng ban: {department.name}</CardTitle>
-          Số lượng nhân viên: {department.numberOfStaff}
+          <p>
+            Tên phòng ban: <span className="fw-bold">{department.name}</span>
+          </p>
+          <p className='m-0'>Số lượng nhân viên: {department.numberOfStaff}</p>
         </CardBody>
       </Card>
     </div>
