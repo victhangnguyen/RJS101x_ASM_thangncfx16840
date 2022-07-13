@@ -101,4 +101,31 @@ svg {
   padding: 20px 0px 20px 0px;
 }
 
+.breadcrumb a {
+  text-decoration: none;
+  color: var(--color-dark);
+}
+
+.breadcrumb-item.active {
+  color: var(--color-main);
+  font-weight: 500;
+}
+
+.breadcrumb-item:hover {
+  font-weight: 500;
+}
+
+/*
+Hm App
+*/
+.hm-title h3 {
+  color: var(--color-main);
+}
+
+.hm-title hr {
+  height: 2px;
+  color: var(--color-main);
+  opacity: 0.5;
+}
+
 /* page not found */

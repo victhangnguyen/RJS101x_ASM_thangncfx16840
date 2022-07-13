@@ -6,7 +6,7 @@ import { Card, CardHeader, CardBody } from 'reactstrap';
 function RenderDepartment({ department }) {
   return (
     <div className="col-12 col-md-6 col-lg-4">
-      <Card className="my-2">
+      <Card className="my-2 border border-3">
         <CardHeader>
           {department.name} (#{department.id})
         </CardHeader>
@@ -14,7 +14,7 @@ function RenderDepartment({ department }) {
           <p>
             Tên phòng ban: <span className="fw-bold">{department.name}</span>
           </p>
-          <p className='m-0'>Số lượng nhân viên: {department.numberOfStaff}</p>
+          <p className="m-0">Số lượng nhân viên: {department.numberOfStaff}</p>
         </CardBody>
       </Card>
     </div>
@@ -27,6 +27,10 @@ function DepartmentComponent() {
   ));
   return (
     <div className="container-fuild my-3 mx-5">
+      <div className="hm-title">
+        <h3>Phòng ban</h3>
+        <hr />
+      </div>
       <div className="row">{departmentList}</div>
     </div>
   );

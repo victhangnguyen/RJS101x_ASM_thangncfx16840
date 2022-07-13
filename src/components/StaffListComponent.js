@@ -18,7 +18,7 @@ function StaffListComponent(props) {
     return (
       <div key={staff.id} className="col-6 col-md-4 col-lg-2">
         <Card
-          className="card-staff my-2 border border-2"
+          className="card-staff my-2 border border-3"
           // onClick={onSelectedStaff.bind(this, staff.id)}
         >
           <Link to={`/staffs/${staff.id}`}>
@@ -43,13 +43,11 @@ function StaffListComponent(props) {
 
   return (
     <div className="container-fuild my-3 mx-5">
+      <div className="hm-title">
+        <h3>Nhân viên</h3>
+        <hr />
+      </div>
       <div className="row">{staffList}</div>
-      {/* <div className="row">
-        <StaffDetail
-          staff={this.state.selectedStaff}
-          column={this.props.column}
-        />
-      </div> */}
     </div>
   );
 }
