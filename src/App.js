@@ -7,10 +7,11 @@ import Main from './components/MainComponent';
 import Staff from './components/StaffListComponent';
 import Department from './components/DepartmentComponent';
 import Salary from './components/SalaryComponent';
+import Search from './components/SearchComponent';
 import StaffDetail from './components/StaffDetailComponent';
 
 //! imp Datas
-import { STAFFS } from './shared/staffs';
+import { STAFFS, DEPARTMENTS, ROLE } from './shared/staffs';
 import PageNotFound from './pages/PageNotFound';
 
 export class App extends React.Component {
@@ -18,6 +19,7 @@ export class App extends React.Component {
     super(props);
     this.state = {
       staffs: STAFFS,
+      departments: DEPARTMENTS,
     };
   }
   render() {
@@ -33,8 +35,19 @@ export class App extends React.Component {
               />
               <Route path="staffs/:staffId" element={<StaffDetail />} />
 
-              <Route path="department" element={<Department />} />
-              <Route path="salary" element={<Salary />} />
+              <Route
+                path="department"
+                element={<Department departments={this.state.departments} />}
+              />
+              <Route
+                path="salary"
+                element={<Salary staffs={this.state.staffs} />}
+              />
+              <Route
+                path="search"
+                element={<Search staffs={this.state.staffs} />}
+              />
+              {/* <Route path="search?:keywords" element={<Search />} /> */}
             </Route>
             <Route path="*" element={<PageNotFound />} />
           </Routes>

@@ -1,5 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigateSearch } from '../hooks';
+
 import {
   Navbar,
   NavbarBrand,
@@ -10,9 +12,15 @@ import {
 } from 'reactstrap';
 
 function Header(props) {
+  //! init Values
+  const initInputValues = {
+    search: '',
+  };
   //! effect NavLink
   const [isNavOpen, setIsNavOpen] = React.useState(false);
-  const [selectedNav, SetSelectedNav] = React.useState(0);
+  const [inputValues, setInputValues] = React.useState(initInputValues);
+
+  const navigateSearch = useNavigateSearch();
 
   const navList = [
     {
@@ -30,7 +38,32 @@ function Header(props) {
       navName: 'Bảng Lương',
       navLink: '/salary',
     },
+    {
+      navId: 3,
+      navName: 'Tìm kiếm',
+      navLink: '/search',
+    },
   ];
+
+  //! onSearchChange
+  const handleChange = function (e) {
+    setInputValues({
+      ...inputValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = function (e) {
+    e.preventDefault();
+    // navigate(`../search/${inputValues.search}`, { replace: true });
+    // navigateSearch('/search', { sort: 'date', order: 'newest' });
+
+    navigateSearch('/search', {
+      keyword: inputValues.search.trim().replace(/  +/g, ' '),
+    });
+    //! format empty
+    setInputValues(initInputValues);
+  };
 
   return (
     <div className="header">
@@ -62,12 +95,18 @@ function Header(props) {
           </Nav>
           <form className="d-flex">
             <input
+              name="search"
+              value={inputValues.search}
               className="form-control me-2"
               type="search"
-              placeholder="Search"
-              aria-label="Search"
+              placeholder="Tìm nhân viên"
+              aria-label="Tìm nhân viên"
+              onChange={(e) => handleChange(e)}
             />
-            <button className="btn btn-outline-light" type="submit">
+            <button
+              className="btn btn-outline-light"
+              onClick={(e) => handleSubmit(e)}
+            >
               Search
             </button>
           </form>

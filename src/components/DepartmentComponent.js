@@ -1,6 +1,12 @@
 import React from 'react';
-import { DEPARTMENTS } from '../shared/staffs';
-import { Card, CardHeader, CardBody } from 'reactstrap';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Breadcrumb,
+  BreadcrumbItem,
+} from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 //! presentational function component
 function RenderDepartment({ department }) {
@@ -21,12 +27,18 @@ function RenderDepartment({ department }) {
   );
 }
 
-function DepartmentComponent() {
-  const departmentList = DEPARTMENTS.map((department) => (
+function Department(props) {
+  const departmentList = props.departments.map((department) => (
     <RenderDepartment key={department.id} department={department} />
   ));
   return (
-    <div className="container-fuild my-3 mx-5">
+    <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <Link to="/staffs">Nhân viên</Link>
+        </BreadcrumbItem>
+        <BreadcrumbItem active>Phòng ban</BreadcrumbItem>
+      </Breadcrumb>
       <div className="hm-title">
         <h3>Phòng ban</h3>
         <hr />
@@ -36,4 +48,4 @@ function DepartmentComponent() {
   );
 }
 
-export default DepartmentComponent;
+export default Department;

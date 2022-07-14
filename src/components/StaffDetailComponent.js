@@ -59,7 +59,7 @@ function StaffDetail(props) {
   // console.log('params: ', params); //! __DEBUG __params
 
   return (
-    <div className="container-fuild my-3 mx-5">
+    <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">
       <Breadcrumb>
         <BreadcrumbItem>
           <Link to="/staffs">Nhân viên</Link>

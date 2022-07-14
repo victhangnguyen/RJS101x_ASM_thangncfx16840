@@ -1,5 +1,4 @@
 import React from 'react';
-import { STAFFS } from '../shared/staffs';
 import {
   Card,
   CardBody,
@@ -42,12 +41,12 @@ function RenderStaff({ staff }) {
   );
 }
 
-function SalaryComponent() {
-  const staffList = STAFFS.map((staff) => (
+function SalaryComponent(props) {
+  const staffList = props.staffs.map((staff) => (
     <RenderStaff key={staff.id} staff={staff} />
   ));
   return (
-    <div className="container-fuild my-3 mx-5">
+    <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">
       <Breadcrumb>
         <BreadcrumbItem>
           <Link to="/staffs">Nhân viên</Link>
