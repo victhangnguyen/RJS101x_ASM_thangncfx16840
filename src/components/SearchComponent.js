@@ -7,7 +7,9 @@ import {
   Breadcrumb,
   BreadcrumbItem,
 } from 'reactstrap';
+import { useNavigateSearch } from '../hooks';
 import { Link, useSearchParams } from 'react-router-dom';
+import 'font-awesome/css/font-awesome.min.css';
 
 //! Presentational Function Component
 function RenderStaff({ staff }) {
@@ -39,15 +41,21 @@ function RenderStaff({ staff }) {
 
 //! container component
 function Search(props) {
-  // const [staffArr, setStaffArr] = React.useState([]);
+  //! init Values
+  const initInputValues = {
+    search: '',
+  };
+  const [inputValues, setInputValues] = React.useState(initInputValues);
   const [staffList, setStaffList] = React.useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log('searchParams: ', searchParams.get('keywords')); //! __DEBUG __params
   const keyword = searchParams.get('keyword')?.toLowerCase().replace(/ +/g, '');
-  console.log('keyword: ', keyword); //! type: a b c  => abc
+  // console.log('keyword: ', keyword); //! type: a b c  => abc
+
+  const navigateSearch = useNavigateSearch();
 
   React.useEffect(() => {
-    const staffArr = [];
+    const staffArr = []; //! init new Array when componentDidUpdate
 
     props.staffs.forEach((staff) => {
       const name = staff.name.toLowerCase().replace(/ +/g, '');
@@ -55,10 +63,26 @@ function Search(props) {
         staffArr.push(staff);
       }
     });
+    //! Re-render
     setStaffList(staffArr);
-    //!
-    console.log('staffArr: ', staffArr);
   }, [keyword]);
+
+  //! onSearchChange
+  const handleChange = function (e) {
+    setInputValues({
+      ...inputValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    console.log(`handleSearchSubmit`);
+
+    navigateSearch('/search', {
+      keyword: inputValues.search.trim().replace(/  +/g, ' '),
+    });
+  };
 
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">
@@ -72,18 +96,23 @@ function Search(props) {
         <h3>Tìm kiếm</h3>
         <hr />
       </div>
-      <form action="" className="">
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control form-control-lg"
-            placeholder="Tìm kiếm thông tin nhân viên"
-          />
-          <button type="submit" className="input-group-text btn-success">
-            <i className="bi bi-search me-2"></i> Tìm kiếm
-          </button>
-        </div>
-      </form>
+      <div className="row">
+        <form className="p-3" onSubmit={(e) => handleSearchSubmit(e)}>
+          <div className="input-group mb-3">
+            <input
+              name="search"
+              value={inputValues.search}
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Tìm kiếm thông tin nhân viên"
+              onChange={(e) => handleChange(e)}
+            />
+            <button type="submit" className="input-group-text btn-success">
+              <i className="fa fa-search"> Tìm kiếm</i>
+            </button>
+          </div>
+        </form>
+      </div>
       <div className="row">
         {staffList?.map((staff) => (
           <RenderStaff key={staff.id} staff={staff} />
