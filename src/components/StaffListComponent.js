@@ -9,8 +9,7 @@ import {
   Input,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-//! imp Components
-import StaffDetail from './StaffDetailComponent';
+import { sortBy } from '../utils';
 
 //! Presentational Function Component
 function RenderStaff({ staff }) {
@@ -40,30 +39,22 @@ function RenderStaff({ staff }) {
   );
 }
 
-function sortBy(property, value) {}
-
 //! Container Function
 function StaffListComponent(props) {
-  const initConfig = {
-    sort: 'default',
+  // console.log(`context StaffList`);
+  const initialSetting = {
+    sort: 'id-ascending',
   };
-  const [config, setConfig] = React.useState(initConfig);
 
-  //! init staffList
-  // const staffList = React.useRef(null);
+  const [setting, setSetting] = React.useState(initialSetting);
 
-  console.log(`context: `, config.sort);
-  const newStaffList = props.staffs.sort((a, b) => {
-    return b.name - a.name
-  });
-  console.log('context: ', newStaffList);
-
-  const staffList = props.staffs.map((staff) => (
+  //! setting State change => re-render
+  const staffList = sortBy(props.staffs, setting.sort).map((staff) => (
     <RenderStaff key={staff.id} staff={staff} />
   ));
 
   // React.useEffect(() => {
-  //   console.log(`compDidUpdate: `, config.sort);
+  //   console.log(`compDidUpdate: `, setting.sort);
   //   return () => {
   //     staffList.current = props.staffs.map((staff) => (
   //       <RenderStaff key={staff.id} staff={staff} />
@@ -76,39 +67,42 @@ function StaffListComponent(props) {
   const handleSortChange = function (e) {
     // console.log(e.target.value);
     //! re-render
-    setConfig({
-      ...config,
+    setSetting({
+      ...setting,
       sort: e.target.value,
     });
   };
 
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5 mx-md-5">
-      <div className="row">
-        <div className="hm-title col-6 col-md-8">
-          <h3>Nhân viên</h3>
-        </div>
-        <div className="col-6 col-md-4 setting">
-          <FormGroup className="d-flex justify-content-center align-items-center mb-0">
-            <Label className="m-2" for="exampleSelect">
-              Sort:{' '}
-            </Label>
-            <Input
-              value={config.sort}
-              id="exampleSelect"
-              name="select"
-              type="select"
-              onChange={(e) => handleSortChange(e)}
-            >
-              <option value="default">Mặc định</option>
-              <option value="ascending">Tăng dần (A → Z)</option>
-              <option value="descending">Giảm dần (Z → A)</option>
-            </Input>
-          </FormGroup>
+      <div className="hm-title">
+        <div className="row">
+          <div className="col-6 col-md-8">
+            <h3>Nhân viên</h3>
+          </div>
+          <div className="col-6 col-md-4 setting">
+            <FormGroup className="d-flex justify-content-center align-items-center">
+              <Label className="m-2" for="exampleSelect">
+                Sort:
+              </Label>
+              <Input
+                value={setting.sort}
+                id="exampleSelect"
+                name="select"
+                type="select"
+                onChange={(e) => handleSortChange(e)}
+              >
+                <option value="id-ascending">Index tăng dần (A → Z)</option>
+                <option value="id-descending">Index giảm dần (Z → A)</option>
+                <option value="name-ascending">Tên tăng dần (A → Z)</option>
+                <option value="name-descending">Tên giảm dần (Z → A)</option>
+              </Input>
+            </FormGroup>
+          </div>
+          <hr />
         </div>
       </div>
-      <hr />
-      {console.log(`render`)}
+      {/* {console.log(`render`)} */}
       <div className="row">{staffList}</div>
     </div>
   );

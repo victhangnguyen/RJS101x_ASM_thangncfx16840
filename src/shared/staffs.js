@@ -34,7 +34,7 @@ export const ROLE = {
 export const STAFFS = [
   {
     id: 0,
-    name: 'Trần Tuấn A',
+    name: 'Trần Văn Võ Tú',
     doB: '1999-01-01T08:59:00.000Z',
     salaryScale: 1.1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -45,7 +45,7 @@ export const STAFFS = [
   },
   {
     id: 1,
-    name: 'Cao Văn B',
+    name: 'Cao Thanh Hà',
     doB: '2000-01-01T08:59:00.000Z',
     salaryScale: 1.2,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -56,7 +56,7 @@ export const STAFFS = [
   },
   {
     id: 2,
-    name: 'Nguyễn Văn C',
+    name: 'Nguyễn Văn Bảo',
     doB: '2002-02-02T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -67,7 +67,7 @@ export const STAFFS = [
   },
   {
     id: 3,
-    name: 'Phạm Văn D',
+    name: 'Trần Văn Trường',
     doB: '2003-03-03T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -78,7 +78,7 @@ export const STAFFS = [
   },
   {
     id: 4,
-    name: 'Phan Văn E',
+    name: 'Phan Hồng Thanh',
     doB: '1999-04-04T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -89,7 +89,7 @@ export const STAFFS = [
   },
   {
     id: 5,
-    name: 'Chương Văn F',
+    name: 'Trương Thị Gấm',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -100,7 +100,7 @@ export const STAFFS = [
   },
   {
     id: 6,
-    name: 'Trương Văn G',
+    name: 'Trần Xuân Bách',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -111,7 +111,7 @@ export const STAFFS = [
   },
   {
     id: 7,
-    name: 'Trương Văn H',
+    name: 'Trương Anh Kiệt',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -122,7 +122,7 @@ export const STAFFS = [
   },
   {
     id: 8,
-    name: 'Phạm Văn I',
+    name: 'Phạm Văn Thới',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -133,7 +133,7 @@ export const STAFFS = [
   },
   {
     id: 9,
-    name: 'Trần Văn J',
+    name: 'Trần Hưng Đạt',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -144,7 +144,7 @@ export const STAFFS = [
   },
   {
     id: 10,
-    name: 'Nguyễn Minh K',
+    name: 'Trần Văn Anh Hải',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -155,7 +155,7 @@ export const STAFFS = [
   },
   {
     id: 11,
-    name: 'Phạm Hồng Văn L',
+    name: 'Phạm Hồng Lâm',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -166,7 +166,7 @@ export const STAFFS = [
   },
   {
     id: 12,
-    name: 'Trương Thị M',
+    name: 'Trương Thị Minh',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -177,7 +177,7 @@ export const STAFFS = [
   },
   {
     id: 13,
-    name: 'Nguyễn Đặng N',
+    name: 'Nguyễn Trí Hoàng',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -188,7 +188,7 @@ export const STAFFS = [
   },
   {
     id: 14,
-    name: 'Bùi Thị Văn O',
+    name: 'Bùi Thị Dung',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
@@ -199,7 +199,7 @@ export const STAFFS = [
   },
   {
     id: 15,
-    name: 'Nguyễn Chí P',
+    name: 'Nguyễn Cao Anh',
     doB: '2003-01-01T08:59:00.000Z',
     salaryScale: 1,
     startDate: '2019-04-30T08:59:00.000Z',
