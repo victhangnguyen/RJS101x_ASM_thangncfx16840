@@ -6,20 +6,20 @@ function Footer(props) {
     <div className="footer">
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-4 offset-1 col-sm-2">
+          <div className="col-4 offset-1 col-sm-2 hm-list">
             <h5>Links</h5>
             <ul className="list-unstyled">
               <li>
-                <Link to="/home">Home</Link>
+                <Link to="/staffs">Nhân viên</Link>
               </li>
               <li>
-                <Link to="/aboutus">About Us</Link>
+                <Link to="/department">Phòng ban</Link>
               </li>
               <li>
-                <Link to="/menu">Menu</Link>
+                <Link to="/salary">Bảng lương</Link>
               </li>
               <li>
-                <Link to="/contactus">Contact Us</Link>
+                <Link to="/search">Tìm kiếm</Link>
               </li>
             </ul>
           </div>

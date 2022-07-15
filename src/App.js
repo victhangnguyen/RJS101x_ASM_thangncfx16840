@@ -11,7 +11,7 @@ import Search from './components/SearchComponent';
 import StaffDetail from './components/StaffDetailComponent';
 
 //! imp Datas
-import { STAFFS, DEPARTMENTS, ROLE } from './shared/staffs';
+import { STAFFS, DEPARTMENTS } from './shared/staffs';
 import PageNotFound from './pages/PageNotFound';
 
 export class App extends React.Component {
@@ -28,7 +28,8 @@ export class App extends React.Component {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Main />}>
-              <Route index element={<Navigate to="/staffs" />} />
+              {/* <Route index element={<Navigate to="/staffs" />} /> */}
+              <Route index element={<Staff staffs={this.state.staffs} />} />
               <Route
                 path="staffs"
                 element={<Staff staffs={this.state.staffs} />}

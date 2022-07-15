@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-//! presentational function component
+//! the Presentational Component
 function RenderDepartment({ department }) {
   return (
     <div className="col-12 col-md-6 col-lg-4">
@@ -27,6 +27,7 @@ function RenderDepartment({ department }) {
   );
 }
 
+//! the Container Component 
 function Department(props) {
   const departmentList = props.departments.map((department) => (
     <RenderDepartment key={department.id} department={department} />
