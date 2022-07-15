@@ -105,7 +105,7 @@ function Search(props) {
       <div className="hm-title">
         <div className="row">
           <div className="col-6 col-md-8">
-            <h3>Bảng lương</h3>
+            <h3>Tìm kiếm</h3>
           </div>
           <div className="col-6 col-md-4">
             <FormGroup className="d-flex justify-content-center align-items-center">
