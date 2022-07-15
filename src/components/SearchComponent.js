@@ -6,10 +6,13 @@ import {
   CardTitle,
   Breadcrumb,
   BreadcrumbItem,
+  FormGroup,
+  Input,
+  Label,
 } from 'reactstrap';
 import { useNavigateSearch } from '../hooks';
 import { Link, useSearchParams } from 'react-router-dom';
-import 'font-awesome/css/font-awesome.min.css';
+import { sortBy } from '../utils';
 
 //! Presentational Function Component
 function RenderStaff({ staff }) {
@@ -42,11 +45,15 @@ function RenderStaff({ staff }) {
 //! container component
 function Search(props) {
   //! init Values
-  const initInputValues = {
+  const initialInputValues = {
     search: '',
   };
-  const [inputValues, setInputValues] = React.useState(initInputValues);
-  const [staffList, setStaffList] = React.useState([]);
+  const initialSetting = {
+    sort: 'id-ascending',
+  };
+  const [setting, setSeting] = React.useState(initialSetting);
+  const [inputValues, setInputValues] = React.useState(initialInputValues);
+  // const [staffList, setStaffList] = React.useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log('searchParams: ', searchParams.get('keywords')); //! __DEBUG __params
   const keyword = searchParams.get('keyword')?.toLowerCase().replace(/ +/g, '');
@@ -54,20 +61,15 @@ function Search(props) {
 
   const navigateSearch = useNavigateSearch();
 
-  React.useEffect(() => {
-    const staffArr = []; //! init new Array when componentDidUpdate
-
-    props.staffs.forEach((staff) => {
+  //! Re-render context
+  const staffList = sortBy(
+    props.staffs.filter((staff) => {
       const name = staff.name.toLowerCase().replace(/ +/g, '');
-      if (String(staff.id) === keyword || name.indexOf(keyword) !== -1) {
-        staffArr.push(staff);
-      }
-    });
-    //! Re-render
-    setStaffList(staffArr);
-  }, [keyword]);
+      return String(staff.id) === keyword || name.indexOf(keyword) !== -1;
+    }),
+    setting.sort
+  ).map((staff) => <RenderStaff key={staff.id} staff={staff} />);
 
-  //! onSearchChange
   const handleChange = function (e) {
     setInputValues({
       ...inputValues,
@@ -84,17 +86,48 @@ function Search(props) {
     });
   };
 
+  const handleSortChange = function (e) {
+    setSeting({
+      sort: e.target.value,
+    });
+  };
+
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">
-      <Breadcrumb>
-        <BreadcrumbItem>
-          <Link to="/staffs">Nhân viên</Link>
-        </BreadcrumbItem>
-        <BreadcrumbItem active>Tìm kiếm</BreadcrumbItem>
-      </Breadcrumb>
+      <div className="bread-crumb">
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <Link to="/staffs">Nhân viên</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active>Tìm kiếm</BreadcrumbItem>
+        </Breadcrumb>
+      </div>
       <div className="hm-title">
-        <h3>Tìm kiếm</h3>
-        <hr />
+        <div className="row">
+          <div className="col-6 col-md-8">
+            <h3>Bảng lương</h3>
+          </div>
+          <div className="col-6 col-md-4">
+            <FormGroup className="d-flex justify-content-center align-items-center">
+              <Label className="m-2" for="exampleSelect">
+                Sort:
+              </Label>
+              <Input
+                value={setting.sort}
+                id="exampleSelect"
+                name="select"
+                type="select"
+                onChange={(e) => handleSortChange(e)}
+              >
+                <option value="id-ascending">Index tăng dần (A → Z)</option>
+                <option value="id-descending">Index giảm dần (Z → A)</option>
+                <option value="name-ascending">Tên tăng dần (A → Z)</option>
+                <option value="name-descending">Tên giảm dần (Z → A)</option>
+              </Input>
+            </FormGroup>
+          </div>
+          <hr />
+        </div>
       </div>
       <div className="row">
         <form className="p-3" onSubmit={(e) => handleSearchSubmit(e)}>
@@ -114,9 +147,10 @@ function Search(props) {
         </form>
       </div>
       <div className="row">
-        {staffList?.map((staff) => (
+        {/* {staffList?.map((staff) => (
           <RenderStaff key={staff.id} staff={staff} />
-        ))}
+        ))} */}
+        {staffList}
       </div>
     </div>
   );
