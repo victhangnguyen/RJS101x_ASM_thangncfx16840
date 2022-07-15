@@ -6,8 +6,12 @@ import {
   CardFooter,
   Breadcrumb,
   BreadcrumbItem,
+  FormGroup,
+  Label,
+  Input,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { sortBy } from '../utils';
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -42,20 +46,66 @@ function RenderStaff({ staff }) {
 }
 
 function SalaryComponent(props) {
-  const staffList = props.staffs.map((staff) => (
+  const initilalSetting = {
+    sort: 'id-ascending',
+  };
+  const [setting, setSetting] = React.useState(initilalSetting);
+
+  // const staffList = props.staffs.map((staff) => (
+  //   <RenderStaff key={staff.id} staff={staff} />
+  // ));
+
+  //! renderStaff with the Shallow Array (sortBy)
+  const staffList = sortBy(props.staffs, setting.sort).map((staff) => (
     <RenderStaff key={staff.id} staff={staff} />
   ));
+
+  const handleSortChange = function (e) {
+    setSetting({
+      sort: e.target.value,
+    });
+  };
+
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">
-      <Breadcrumb>
-        <BreadcrumbItem>
-          <Link to="/staffs">Nhân viên</Link>
-        </BreadcrumbItem>
-        <BreadcrumbItem active>Bảng lương</BreadcrumbItem>
-      </Breadcrumb>
+      <div className="bread-crumb">
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <Link to="/staffs">Nhân viên</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active>Bảng lương</BreadcrumbItem>
+        </Breadcrumb>
+      </div>
       <div className="hm-title">
-        <h3>Bảng lương</h3>
-        <hr />
+        <div className="row">
+          <div className="col-6 col-md-8">
+            <h3>Bảng lương</h3>
+          </div>
+          <div className="col-6 col-md-4">
+            <FormGroup className="d-flex justify-content-center align-items-center">
+              <Label className="m-2" for="exampleSelect">
+                Sort:
+              </Label>
+              <Input
+                value={setting.sort}
+                id="exampleSelect"
+                name="select"
+                type="select"
+                onChange={(e) => handleSortChange(e)}
+              >
+                <option value="id-ascending">Index tăng dần (A → Z)</option>
+                <option value="id-descending">Index giảm dần (Z → A)</option>
+                <option value="name-ascending">Tên tăng dần (A → Z)</option>
+                <option value="name-descending">Tên giảm dần (Z → A)</option>
+                <option value="salary-ascending">Lương tăng dần (A → Z)</option>
+                <option value="salary-descending">
+                  Lương giảm dần (Z → A)
+                </option>
+              </Input>
+            </FormGroup>
+          </div>
+          <hr />
+        </div>
       </div>
       <div className="row">{staffList}</div>
     </div>

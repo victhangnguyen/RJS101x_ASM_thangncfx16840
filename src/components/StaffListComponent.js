@@ -80,7 +80,7 @@ function StaffListComponent(props) {
           <div className="col-6 col-md-8">
             <h3>Nhân viên</h3>
           </div>
-          <div className="col-6 col-md-4 setting">
+          <div className="col-6 col-md-4">
             <FormGroup className="d-flex justify-content-center align-items-center">
               <Label className="m-2" for="exampleSelect">
                 Sort:
