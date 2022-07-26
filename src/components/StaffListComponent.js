@@ -30,17 +30,13 @@ import { addStaff } from '../redux/features/staffs/staffsSlice';
 function RenderStaff({ staff }) {
   return (
     <div key={staff.id} className="col-6 col-md-4 col-lg-2">
-      <Card
-        className="card-staff my-2 border border-3"
-        // onClick={onSelectedStaff.bind(this, staff.id)}
-      >
+      <Card className="card-staff my-2 border border-3">
         <Link to={`/staffs/${staff.id}`}>
           <CardHeader>#{staff.id}</CardHeader>
           <CardBody>
             <div className="row">
               <div className="col-12">
                 <div className="card-avatar">
-                  {/* <img src="assets/images/avatar.png" alt="" /> */}
                   <img src={staff.image} alt={staff.name} />
                 </div>
               </div>
@@ -65,7 +61,6 @@ function StaffListComponent(props) {
   const dispatch = useDispatch();
   // dispatch(getStaffs());
   const staffs = useSelector((state) => state.staffs);
-  // console.log('staffs - renderedStaffs: ', staffList);
   /*
   Sử dụng chức năng tìm kiếm nhân viên bằng tên nhân viên thành công sử dụng Uncontrolled Form.
   */
@@ -114,6 +109,7 @@ function StaffListComponent(props) {
       if (formik.isValid && formik.dirty) {
         dispatch(addStaff(formik.values));
       }
+      formik.resetForm();
       toggleModal();
     },
   });
