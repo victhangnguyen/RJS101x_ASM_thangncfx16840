@@ -24,7 +24,7 @@ import * as Yup from 'yup';
 //! imp TRK
 import { useDispatch, useSelector } from 'react-redux';
 //! imp Actions
-import { getStaffs } from '../redux/features/staffs/staffsSlice';
+import { addStaff } from '../redux/features/staffs/staffsSlice';
 
 //! Presentational Function Component
 function RenderStaff({ staff }) {
@@ -63,9 +63,9 @@ function StaffListComponent(props) {
 
   const [staffList, setStaffList] = React.useState([]);
   const dispatch = useDispatch();
-  dispatch(getStaffs());
+  // dispatch(getStaffs());
   const staffs = useSelector((state) => state.staffs);
-  console.log('staffs - renderedStaffs: ', staffList);
+  // console.log('staffs - renderedStaffs: ', staffList);
   /*
   Sử dụng chức năng tìm kiếm nhân viên bằng tên nhân viên thành công sử dụng Uncontrolled Form.
   */
@@ -110,8 +110,11 @@ function StaffListComponent(props) {
         .max(30, 'Yều cầu nhỏ hơn số 30'),
     }),
     onSubmit: (values) => {
-      console.log(values);
-      alert(JSON.stringify(values, null, 2));
+      // console.log('handleSubmit');
+      if (formik.isValid && formik.dirty) {
+        dispatch(addStaff(formik.values));
+      }
+      toggleModal();
     },
   });
 
@@ -129,16 +132,15 @@ function StaffListComponent(props) {
     ));
 
   const handleSearch = function (e) {
-    console.log('handleSearch');
     e.preventDefault();
-    // alert('A name was submitted: ' + inputSearch.current?.value);
+
     const filteredStaff = sortBy(
       staffs.filter((staff) => {
-        if (!inputSearch.current) return true;
+        // if (!inputSearch.current) return true;
         const name = staff.name.toLowerCase().replace(/ +/g, '');
         return (
           String(staff.id) === inputSearch.current.value ||
-          name.indexOf(inputSearch.current.value) !== -1
+          name.indexOf(inputSearch.current?.value.toLowerCase()) !== -1
         );
       }),
       setting.sort
@@ -155,14 +157,9 @@ function StaffListComponent(props) {
     });
   };
 
-  const handleAddStaff = function () {
-    console.log('handleAddStaff');
-    toggleModal();
-  };
-
   const handleCancel = function () {
     formik.resetForm();
-    setIsModalOpen(!isModalOpen);
+    toggleModal();
   };
 
   const toggleModal = function () {
@@ -172,7 +169,7 @@ function StaffListComponent(props) {
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5 mx-md-5">
       <Modal isOpen={isModalOpen} toggle={toggleModal} {...props}>
-        <Form>
+        <Form onSubmit={formik.handleSubmit}>
           <ModalHeader toggle={toggleModal}>Thêm nhân viên</ModalHeader>
           <ModalBody className="px-5">
             {
@@ -347,11 +344,15 @@ function StaffListComponent(props) {
             </FormGroup>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" color="primary" onClick={toggleModal}>
-              Do Something
+            <Button
+              type="submit"
+              color="primary"
+              disabled={!(formik.isValid && formik.dirty)}
+            >
+              Thêm
             </Button>
             <Button color="secondary" onClick={handleCancel}>
-              Cancel
+              Hủy
             </Button>
           </ModalFooter>
         </Form>
@@ -389,7 +390,7 @@ function StaffListComponent(props) {
         <FormGroup>
           <Row>
             <Col className="col-12 col-md-3 my-2">
-              <Button type="button" color="danger" onClick={handleAddStaff}>
+              <Button type="button" color="danger" onClick={toggleModal}>
                 Thêm nhân viên
               </Button>
             </Col>
@@ -401,13 +402,14 @@ function StaffListComponent(props) {
                 innerRef={inputSearch}
                 id="search"
                 name="search"
-                type="button"
+                type="text"
                 placeholder="Tìm thông tin nhân viên"
               />
             </Col>
             <Button
               className="col-3 col-md-2 my-2"
               color="primary"
+              type="button"
               onClick={handleSearch}
             >
               Search

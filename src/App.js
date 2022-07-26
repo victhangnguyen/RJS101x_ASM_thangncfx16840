@@ -31,7 +31,6 @@ export class App extends React.Component {
               <Route path="department" element={<Department />} />
               <Route path="salary" element={<Salary />} />
               <Route path="search" element={<Search />} />
-              {/* <Route path="search?:keywords" element={<Search />} /> */}
             </Route>
             <Route path="*" element={<PageNotFound />} />
           </Routes>

@@ -13,6 +13,8 @@ import {
 import { useNavigateSearch } from '../hooks';
 import { Link, useSearchParams } from 'react-router-dom';
 import { sortBy } from '../utils';
+//! imp RTK
+import { useDispatch, useSelector } from 'react-redux';
 
 //! Presentational Function Component
 function RenderStaff({ staff }) {
@@ -28,7 +30,7 @@ function RenderStaff({ staff }) {
             <div className="row">
               <div className="col-12">
                 <div className="card-avatar">
-                  <img src="assets/images/avatar.png" alt="" />
+                  <img src={staff.image} alt="" />
                 </div>
               </div>
               <div className="col-12">
@@ -43,16 +45,17 @@ function RenderStaff({ staff }) {
 }
 
 //! container component
-function Search(props) {
-  //! init Values
-  const initialInputValues = {
-    search: '',
-  };
+function Search() {
+  //! Uncontrolled Form for Search
+  const inputSearch = React.useRef();
+
+  // const dispatch = useDispatch();
+  const staffs = useSelector((state) => state.staffs);
+
   const initialSetting = {
     sort: 'id-ascending',
   };
   const [setting, setSeting] = React.useState(initialSetting);
-  const [inputValues, setInputValues] = React.useState(initialInputValues);
   // const [staffList, setStaffList] = React.useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log('searchParams: ', searchParams.get('keywords')); //! __DEBUG __params
@@ -63,26 +66,22 @@ function Search(props) {
 
   //! Re-render context
   const staffList = sortBy(
-    props.staffs.filter((staff) => {
+    staffs.filter((staff) => {
       const name = staff.name.toLowerCase().replace(/ +/g, '');
-      return String(staff.id) === keyword || name.indexOf(keyword) !== -1;
+      return (
+        String(staff.id) === keyword ||
+        name.indexOf(keyword.toLowerCase()) !== -1
+      );
     }),
     setting.sort
   ).map((staff) => <RenderStaff key={staff.id} staff={staff} />);
-
-  const handleChange = function (e) {
-    setInputValues({
-      ...inputValues,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     console.log(`handleSearchSubmit`);
 
     navigateSearch('/search', {
-      keyword: inputValues.search.trim().replace(/  +/g, ' '),
+      keyword: inputSearch.current.value.trim().replace(/  +/g, ' '),
     });
   };
 
@@ -134,11 +133,10 @@ function Search(props) {
           <div className="input-group mb-3">
             <input
               name="search"
-              value={inputValues.search}
               type="text"
               className="form-control form-control-lg"
               placeholder="Tìm kiếm thông tin nhân viên"
-              onChange={(e) => handleChange(e)}
+              ref={inputSearch}
             />
             <button type="submit" className="input-group-text btn-success">
               <i className="fa fa-search"> Tìm kiếm</i>

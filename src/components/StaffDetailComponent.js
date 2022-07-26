@@ -9,7 +9,7 @@ import {
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 //! imp Actions
-import { getStaffs } from '../redux/features/staffs/staffsSlice';
+// import { getStaffs } from '../redux/features/staffs/staffsSlice';
 
 function getddmmyyyy(isoDate) {
   const date = new Date(isoDate);
@@ -51,10 +51,10 @@ function RenderStaff({ staff }) {
 //! Presentational Component
 function StaffDetail() {
   const params = useParams();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   //! get Staffs Data
-  dispatch(getStaffs());
+  // dispatch(getStaffs());
   const staffs = useSelector((state) => state.staffs);
 
   console.log('staffs - StaffDetail: ', staffs);

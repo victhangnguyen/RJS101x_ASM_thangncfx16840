@@ -54,10 +54,10 @@ function SalaryComponent() {
     sort: 'id-ascending',
   };
   const [setting, setSetting] = React.useState(initilalSetting);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   //! get Staffs Data
-  dispatch(getStaffs());
+  // dispatch(getStaffs());
   const staffs = useSelector((state) => state.staffs);
 
   //! renderStaff with the Shallow Array (sortBy)
