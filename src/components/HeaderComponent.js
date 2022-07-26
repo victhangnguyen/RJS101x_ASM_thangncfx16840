@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useNavigateSearch } from '../hooks';
 
 import {
@@ -45,25 +45,25 @@ function Header(props) {
     },
   ];
 
-  //! onSearchChange
-  const handleChange = function (e) {
-    setInputValues({
-      ...inputValues,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // //! onSearchChange
+  // const handleChange = function (e) {
+  //   setInputValues({
+  //     ...inputValues,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
-  const handleSubmit = function (e) {
-    e.preventDefault();
-    // navigate(`../search/${inputValues.search}`, { replace: true });
-    // navigateSearch('/search', { sort: 'date', order: 'newest' });
+  // const handleSubmit = function (e) {
+  //   e.preventDefault();
+  //   // navigate(`../search/${inputValues.search}`, { replace: true });
+  //   // navigateSearch('/search', { sort: 'date', order: 'newest' });
 
-    navigateSearch('/search', {
-      keyword: inputValues.search.trim().replace(/  +/g, ' '),
-    });
-    //! format empty
-    setInputValues(initInputValues);
-  };
+  //   navigateSearch('/search', {
+  //     keyword: inputValues.search.trim().replace(/  +/g, ' '),
+  //   });
+  //   //! format empty
+  //   setInputValues(initInputValues);
+  // };
 
   return (
     <div className="header">
@@ -93,7 +93,7 @@ function Header(props) {
               );
             })}
           </Nav>
-          <form className="d-flex">
+          {/* <form className="d-flex">
             <input
               name="search"
               value={inputValues.search}
@@ -109,7 +109,7 @@ function Header(props) {
             >
               Search
             </button>
-          </form>
+          </form> */}
         </Collapse>
       </Navbar>
     </div>

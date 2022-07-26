@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 //! imp Components
@@ -11,16 +11,11 @@ import Search from './components/SearchComponent';
 import StaffDetail from './components/StaffDetailComponent';
 
 //! imp Datas
-import { STAFFS, DEPARTMENTS } from './shared/staffs';
 import PageNotFound from './pages/PageNotFound';
 
 export class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      staffs: STAFFS,
-      departments: DEPARTMENTS,
-    };
   }
   render() {
     return (
@@ -29,25 +24,13 @@ export class App extends React.Component {
           <Routes>
             <Route path="/" element={<Main />}>
               {/* <Route index element={<Navigate to="/staffs" />} /> */}
-              <Route index element={<Staff staffs={this.state.staffs} />} />
-              <Route
-                path="staffs"
-                element={<Staff staffs={this.state.staffs} />}
-              />
+              <Route index element={<Staff />} />
+              <Route path="staffs" element={<Staff />} />
               <Route path="staffs/:staffId" element={<StaffDetail />} />
 
-              <Route
-                path="department"
-                element={<Department departments={this.state.departments} />}
-              />
-              <Route
-                path="salary"
-                element={<Salary staffs={this.state.staffs} />}
-              />
-              <Route
-                path="search"
-                element={<Search staffs={this.state.staffs} />}
-              />
+              <Route path="department" element={<Department />} />
+              <Route path="salary" element={<Salary />} />
+              <Route path="search" element={<Search />} />
               {/* <Route path="search?:keywords" element={<Search />} /> */}
             </Route>
             <Route path="*" element={<PageNotFound />} />

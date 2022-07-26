@@ -12,6 +12,10 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { sortBy } from '../utils';
+//! imp RTK
+import { useDispatch, useSelector } from 'react-redux';
+//! Actions
+import { getStaffs } from '../redux/features/staffs/staffsSlice';
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -45,20 +49,23 @@ function RenderStaff({ staff }) {
   );
 }
 
-function SalaryComponent(props) {
+function SalaryComponent() {
   const initilalSetting = {
     sort: 'id-ascending',
   };
   const [setting, setSetting] = React.useState(initilalSetting);
+  const dispatch = useDispatch();
 
-  // const staffList = props.staffs.map((staff) => (
-  //   <RenderStaff key={staff.id} staff={staff} />
-  // ));
+  //! get Staffs Data
+  dispatch(getStaffs());
+  const staffs = useSelector((state) => state.staffs);
 
   //! renderStaff with the Shallow Array (sortBy)
-  const staffList = sortBy(props.staffs, setting.sort).map((staff) => (
-    <RenderStaff key={staff.id} staff={staff} />
-  ));
+  const staffList =
+    staffs &&
+    sortBy(staffs, setting.sort).map((staff) => (
+      <RenderStaff key={staff.id} staff={staff} />
+    ));
 
   const handleSortChange = function (e) {
     setSetting({

@@ -4,12 +4,20 @@ import {
   CardBody,
   CardTitle,
   CardHeader,
+  Form,
   FormGroup,
   Label,
   Input,
+  Button,
+  Row,
+  Col,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { sortBy } from '../utils';
+//! imp TRK
+import { useDispatch, useSelector } from 'react-redux';
+//! imp Actions
+import { getStaffs } from '../redux/features/staffs/staffsSlice';
 
 //! Presentational Function Component
 function RenderStaff({ staff }) {
@@ -40,29 +48,60 @@ function RenderStaff({ staff }) {
 }
 
 //! Container Function
-function StaffListComponent(props) {
-  // console.log(`context StaffList`);
+function StaffListComponent() {
+  // console.log('context StaffList');
   const initialSetting = {
     sort: 'id-ascending',
   };
 
   const [setting, setSetting] = React.useState(initialSetting);
+  const [staffList, setStaffList] = React.useState([]);
 
-  //! setting State change => re-render
-  const staffList = sortBy(props.staffs, setting.sort).map((staff) => (
-    <RenderStaff key={staff.id} staff={staff} />
-  ));
+  const [searchParams, setSearchParams] = useSearchParams();
+  // console.log('searchParams: ', searchParams.get('keywords')); //! __DEBUG __params
+  const keyword = searchParams.get('keyword')?.toLowerCase().replace(/ +/g, '');
 
-  // React.useEffect(() => {
-  //   console.log(`compDidUpdate: `, setting.sort);
-  //   return () => {
-  //     staffList.current = props.staffs.map((staff) => (
-  //       <RenderStaff key={staff.id} staff={staff} />
-  //     ));
-  //     //! unmount
-  //     console.log(`Unmount: `, staffList.current);
-  //   };
-  // }, []);
+  const dispatch = useDispatch();
+  dispatch(getStaffs());
+  const staffs = useSelector((state) => state.staffs);
+  console.log('staffs - StaffListComponent: ', staffs);
+  console.log('staffs - renderedStaffs: ', staffList);
+  /*
+  Sử dụng chức năng tìm kiếm nhân viên bằng tên nhân viên thành công sử dụng Uncontrolled Form.
+  */
+  const inputSearch = React.useRef();
+  console.log('inputSearch.current: ', inputSearch.current); //! __DEBUG __inputSearch
+
+  //! Effect with [staffs]
+  React.useEffect(() => {
+    console.log('%cstaffs data render', 'color: red; font-weight: bold');
+    setStaffList(staffs);
+  }, [dispatch, staffs]);
+
+  // render <Presentational Staff>
+  let renderStaffList =
+    staffList &&
+    sortBy(staffList, setting.sort).map((staff) => (
+      <RenderStaff key={staff.id} staff={staff} />
+    ));
+
+  const handleSearch = function (e) {
+    console.log('handleSearch');
+    e.preventDefault();
+    // alert('A name was submitted: ' + inputSearch.current?.value);
+    const filteredStaff = sortBy(
+      staffs.filter((staff) => {
+        if (!inputSearch.current) return true;
+        const name = staff.name.toLowerCase().replace(/ +/g, '');
+        return (
+          String(staff.id) === inputSearch.current.value ||
+          name.indexOf(inputSearch.current.value) !== -1
+        );
+      }),
+      setting.sort
+    );
+    setStaffList(filteredStaff);
+  };
 
   const handleSortChange = function (e) {
     // console.log(e.target.value);
@@ -103,7 +142,29 @@ function StaffListComponent(props) {
         </div>
       </div>
       {/* {console.log(`render`)} */}
-      <div className="row">{staffList}</div>
+      <Form className="my-2" onSubmit={handleSearch}>
+        <FormGroup>
+          <Row>
+            <Col className="col-10">
+              <Input
+                /*
+                innerRef is the ref attribute
+                */
+                innerRef={inputSearch}
+                id="search"
+                name="search"
+                type="search"
+                placeholder="Tìm thông tin nhân viên"
+              />
+            </Col>
+            <Button type="submit" className="col-2" color="primary">
+              Tìm kiếm
+            </Button>
+          </Row>
+        </FormGroup>
+      </Form>
+
+      <div className="row">{renderStaffList}</div>
     </div>
   );
 }

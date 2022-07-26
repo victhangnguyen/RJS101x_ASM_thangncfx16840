@@ -7,9 +7,9 @@ import {
 } from 'reactstrap';
 // import { Link } from 'react-router-dom';
 import { useParams, Link } from 'react-router-dom';
-
-//! imp Datas
-import { STAFFS } from '../shared/staffs';
+import { useDispatch, useSelector } from 'react-redux';
+//! imp Actions
+import { getStaffs } from '../redux/features/staffs/staffsSlice';
 
 function getddmmyyyy(isoDate) {
   const date = new Date(isoDate);
@@ -49,10 +49,17 @@ function RenderStaff({ staff }) {
 }
 
 //! Presentational Component
-function StaffDetail(props) {
+function StaffDetail() {
   const params = useParams();
+  const dispatch = useDispatch();
 
-  const staff = STAFFS.find((staff) => String(staff.id) === params.staffId);
+  //! get Staffs Data
+  dispatch(getStaffs());
+  const staffs = useSelector((state) => state.staffs);
+
+  console.log('staffs - StaffDetail: ', staffs);
+
+  const staff = staffs?.find((staff) => String(staff.id) === params.staffId);
 
   //! guard clause
   if (!staff) return <></>;
