@@ -347,7 +347,7 @@ function StaffListComponent(props) {
             <Button
               type="submit"
               color="primary"
-              disabled={!(formik.isValid && formik.dirty)}
+              // disabled={!(formik.isValid && formik.dirty)}
             >
               Thêm
             </Button>
