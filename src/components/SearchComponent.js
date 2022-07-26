@@ -70,7 +70,7 @@ function Search() {
       const name = staff.name.toLowerCase().replace(/ +/g, '');
       return (
         String(staff.id) === keyword ||
-        name.indexOf(keyword.toLowerCase()) !== -1
+        name.indexOf(keyword?.toLowerCase()) !== -1
       );
     }),
     setting.sort
