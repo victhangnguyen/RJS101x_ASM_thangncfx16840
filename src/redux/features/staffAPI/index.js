@@ -1,5 +1,10 @@
 import { baseUrl } from '../../../shared/baseUrl';
 
+export const fetchAll = () => {
+  const inputUrl = baseUrl + 'staffs';
+  return fetch(inputUrl).then((response) => response.json());
+};
+
 export const add = (newStaff) => {
   const inputUrl = baseUrl + 'staffs';
   return fetch(inputUrl, {
@@ -9,6 +14,5 @@ export const add = (newStaff) => {
       'Content-Type': 'application/json',
     },
     credentials: 'same-origin',
-  });
-  //! return Promise
+  }).then((response) => response.json());
 };

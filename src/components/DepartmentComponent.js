@@ -9,8 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 //! imp Actions
-import { getDepartments } from '../redux/features/department/departmentSlice';
-
+import { fetchDepartments } from '../redux/features/department/departmentSlice';
 //! the Presentational Component
 function RenderDepartment({ department }) {
   return (
@@ -34,11 +33,19 @@ function RenderDepartment({ department }) {
 function Department() {
   const dispatch = useDispatch();
 
-  //! get Departments Data
-  dispatch(getDepartments());
-  const departments = useSelector((state) => state.departments);
+  //! componentDidMount
+  React.useEffect(() => {
+    dispatch(fetchDepartments());
+  }, []);
 
-  const departmentList = departments?.map((department) => (
+  const departments = useSelector((state) => state.departments);
+  console.log(
+    '%c_deparmentLoading: ',
+    'color: blue; font-weight: bold',
+    departments.loading
+  ); //! __DEBUG
+
+  const departmentList = departments.entities?.map((department) => (
     <RenderDepartment key={department.id} department={department} />
   ));
   return (

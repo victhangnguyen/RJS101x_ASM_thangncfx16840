@@ -15,9 +15,7 @@ import * as staffAPI from '../staffAPI';
 // },
 
 export const fetchStaffs = createAsyncThunk('staffs/fetchAll', async () => {
-  const inputUrl = baseUrl + 'staffs';
-  const response = await fetch(inputUrl);
-  const staffs = await response.json();
+  const staffs = await staffAPI.fetchAll();
   return staffs;
 });
 
@@ -25,10 +23,7 @@ export const fetchStaffs = createAsyncThunk('staffs/fetchAll', async () => {
 export const addStaff = createAsyncThunk(
   'staffs/addStaff',
   (newStaff, thunkAPI) => {
-    const inputUrl = baseUrl + 'staffs';
-    return staffAPI.add(newStaff)
-      .then((response) => response.json())
-      .then((staffs) => staffs.at(-1)); //! ES2022 get lastEle
+    return staffAPI.add(newStaff).then((staffs) => staffs.at(-1)); //! ES2022 get lastEle
   }
 );
 
