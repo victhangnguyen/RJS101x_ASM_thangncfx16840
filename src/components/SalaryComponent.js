@@ -15,7 +15,7 @@ import { sortBy } from '../utils';
 //! imp RTK
 import { useDispatch, useSelector } from 'react-redux';
 //! Actions
-import { getStaffs } from '../redux/features/staffs/staffsSlice';
+import { getStaffs } from '../redux/features/staff/staffSlice';
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');

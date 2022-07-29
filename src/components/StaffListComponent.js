@@ -24,7 +24,7 @@ import * as Yup from 'yup';
 //! imp TRK
 import { useDispatch, useSelector } from 'react-redux';
 //! imp Actions
-import { addStaff } from '../redux/features/staffs/staffsSlice';
+import { fetchStaffs } from '../redux/features/staff/staffSlice';
 
 //! Presentational Function Component
 function RenderStaff({ staff }) {
@@ -54,21 +54,16 @@ function RenderStaff({ staff }) {
 //! Container Function
 function StaffListComponent(props) {
   // console.log('context StaffList');
+  const inputSearch = React.useRef();
+  const dispatch = useDispatch();
+  const entitiesStaff = useSelector((state) => state.staffs.entities);
+
+  const [keywordSearch, setKeywordSearch] = React.useState(
+    inputSearch.current?.value ? inputSearch.current.value : ''
+  );
   const [setting, setSetting] = React.useState({ sort: 'id-ascending' });
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  const [staffList, setStaffList] = React.useState([]);
-  const dispatch = useDispatch();
-  // dispatch(getStaffs());
-  const staffs = useSelector((state) => state.staffs);
-  /*
-  Sử dụng chức năng tìm kiếm nhân viên bằng tên nhân viên thành công sử dụng Uncontrolled Form.
-  */
-  const inputSearch = React.useRef();
-
-  /*
-  Thêm thành công nhân viên  mới và chuẩn hoá dữ liệu (validate) form sử dụng Formik and Yup and Redux.
-  */
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -107,45 +102,43 @@ function StaffListComponent(props) {
     onSubmit: (values) => {
       // console.log('handleSubmit');
       if (formik.isValid && formik.dirty) {
-        dispatch(addStaff(formik.values));
+        // dispatch(postStaff(formik.values));
       }
       formik.resetForm();
       toggleModal();
     },
   });
 
-  //! Effect with [staffs]
+  //! componentDidMount
   React.useEffect(() => {
-    console.log('%cstaffs data render', 'color: red; font-weight: bold');
-    setStaffList(staffs);
-  }, [dispatch, staffs]);
+    dispatch(fetchStaffs());
+  }, []);
 
-  // render <Presentational Staff>
-  let renderStaffList =
-    staffList &&
-    sortBy(staffList, setting.sort).map((staff) => (
-      <RenderStaff key={staff.id} staff={staff} />
-    ));
+  const staffsList = sortBy(
+    //! staffs.entities => thêm 1 lần render
+    entitiesStaff.filter((staff) => {
+      const name = staff.name.toLowerCase().replace(/ +/g, '');
+      return (
+        String(staff.id) === keywordSearch ||
+        name.indexOf(keywordSearch.toLowerCase()) !== -1
+      );
+    }),
+    setting.sort
+  ).map((staff) => <RenderStaff key={staff.id} staff={staff} />);
+
+  console.log(
+    '%c_var-staffsList: ',
+    'color: blue; font-weight: bold',
+    staffsList
+  ); //! __DEBUG
 
   const handleSearch = function (e) {
     e.preventDefault();
-
-    const filteredStaff = sortBy(
-      staffs.filter((staff) => {
-        // if (!inputSearch.current) return true;
-        const name = staff.name.toLowerCase().replace(/ +/g, '');
-        return (
-          String(staff.id) === inputSearch.current.value ||
-          name.indexOf(inputSearch.current?.value.toLowerCase()) !== -1
-        );
-      }),
-      setting.sort
-    );
-    setStaffList(filteredStaff);
+    console.log('handleSearch');
+    setKeywordSearch(inputSearch.current.value);
   };
 
   const handleSortChange = function (e) {
-    // console.log(e.target.value);
     //! re-render
     setSetting({
       ...setting,
@@ -414,7 +407,7 @@ function StaffListComponent(props) {
         </FormGroup>
       </Form>
 
-      <div className="row">{renderStaffList}</div>
+      <div className="row">{staffsList}</div>
     </div>
   );
 }

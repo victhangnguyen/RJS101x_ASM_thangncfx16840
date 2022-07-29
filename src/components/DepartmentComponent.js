@@ -9,7 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 //! imp Actions
-import { getDepartments } from '../redux/features/departments/departmentsSlice';
+import { getDepartments } from '../redux/features/department/departmentSlice';
 
 //! the Presentational Component
 function RenderDepartment({ department }) {

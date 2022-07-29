@@ -1,4 +1,7 @@
 function sortBy(arr, type) {
+  //! guard clause
+  if (typeof arr === 'undefined') return [];
+
   //! return a new Shallow Array
   const newArr = [...arr];
   return newArr.sort((a, b) => {
