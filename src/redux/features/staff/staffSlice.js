@@ -1,17 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { baseUrl } from '../../../shared/baseUrl';
-// import { STAFFS } from '../../../shared/staffs';
 
 //! TS interface
 // interface UsersState {
 //   entities: []
 //   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
 // }
-
-const initialState = {
-  entities: [],
-  loading: 'idle',
-};
 
 // postStaff: (state, action) => {
 //   console.log('slice staff: action', action);
@@ -23,16 +17,32 @@ export const fetchStaffs = createAsyncThunk('staffs/fetchAll', async () => {
   const inputUrl = baseUrl + 'staffs';
   const response = await fetch(inputUrl);
   const staffs = await response.json();
-  // return staffs.data; //! server
-
-  // console.log(
-  //   '%c_fetchStaff thunkAct: ',
-  //   'color: blue; font-weight: bold',
-  //   staffs
-  // ); //! __DEBUG
-
   return staffs;
 });
+
+//! POST return staffs[]
+export const addStaff = createAsyncThunk(
+  'staffs/addStaff',
+  (newStaff, thunkAPI) => {
+    const inputUrl = baseUrl + 'staffs';
+    return fetch(inputUrl, {
+      method: 'POST',
+      body: JSON.stringify(newStaff),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+    })
+      .then((response) => response.json())
+      .then((staffs) => staffs.at(-1)); //! ES2022 get lastEle
+  }
+);
+
+const initialState = {
+  entities: [],
+  loading: 'idle',
+  errorMessage: null,
+};
 
 const staffsSlice = createSlice({
   name: 'staffs',
@@ -48,11 +58,24 @@ const staffsSlice = createSlice({
       state.loading = 'pending';
     });
     builer.addCase(fetchStaffs.fulfilled, (state, action) => {
-      state.entities = action.payload;
       state.loading = 'succeeded';
+      state.entities = action.payload;
     });
-    builer.addCase(fetchStaffs.rejected, (state) => {
+    builer.addCase(fetchStaffs.rejected, (state, action) => {
       state.loading = 'failed';
+      state.errorMessage = action.payload;
+    });
+    builer.addCase(addStaff.pending, (state) => {
+      state.loading = 'pending';
+    });
+    builer.addCase(addStaff.fulfilled, (state, action) => {
+      state.loading = 'succeeded';
+      //! immutate with produce immer
+      state.entities.push(action.payload);
+    });
+    builer.addCase(addStaff.rejected, (state, action) => {
+      state.loading = 'failed';
+      // state.errorMessage = action.payload;
     });
   },
 });
