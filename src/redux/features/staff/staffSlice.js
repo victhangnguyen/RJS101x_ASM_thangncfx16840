@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { baseUrl } from '../../../shared/baseUrl';
+import * as staffAPI from '../staffAPI';
 
 //! TS interface
 // interface UsersState {
@@ -25,14 +26,7 @@ export const addStaff = createAsyncThunk(
   'staffs/addStaff',
   (newStaff, thunkAPI) => {
     const inputUrl = baseUrl + 'staffs';
-    return fetch(inputUrl, {
-      method: 'POST',
-      body: JSON.stringify(newStaff),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
-    })
+    return staffAPI.add(newStaff)
       .then((response) => response.json())
       .then((staffs) => staffs.at(-1)); //! ES2022 get lastEle
   }

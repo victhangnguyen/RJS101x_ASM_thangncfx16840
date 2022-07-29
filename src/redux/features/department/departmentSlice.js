@@ -4,6 +4,8 @@ import { DEPARTMENTS } from '../../../shared/staffs';
 
 const initialState = [];
 
+
+
 const departmentsSlide = createSlice({
   name: 'deparments',
   initialState,
