@@ -50,6 +50,7 @@ function RenderStaff({ staff, handleEdit, handleConfirm }) {
             }
             <YesNoModal
               buttonName="Xóa nhân viên"
+              buttonColor="danger"
               header="Xoá nhân viên"
               body="Bạn muốn xóa nhân viên này không?"
               entity={staff}

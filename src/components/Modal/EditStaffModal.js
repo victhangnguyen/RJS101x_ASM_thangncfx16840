@@ -66,7 +66,7 @@ function EditStaffModal({ currentStaff, handleEdit }) {
       console.log('handleSubmit');
       if (formik.isValid && formik.dirty) {
         // console.log(values);
-        console.log('%c_onSubmit: ', 'color: red; font-weight: bold', values); //! __DEBUG
+        // console.log('%c_onSubmit: ', 'color: red; font-weight: bold', values); //! __DEBUG
         handleEdit(values);
       }
       formik.resetForm();
