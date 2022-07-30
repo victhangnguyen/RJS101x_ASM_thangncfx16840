@@ -5,6 +5,19 @@ export const fetchAll = () => {
   return fetch(inputUrl).then((response) => response.json());
 };
 
+export const fetchByDeptId = (deptId) => {
+  const inputUrl = baseUrl + 'staffs';
+  const staffs = fetch(inputUrl)
+    .then((response) => response.json())
+    .then((staffs) =>
+      staffs.filter(
+        (staff) => staff.departmentId.toLowerCase() === deptId.toLowerCase()
+      )
+    );
+  //! return Promise
+  return staffs;
+};
+
 export const add = (newStaff) => {
   const inputUrl = baseUrl + 'staffs';
   return fetch(inputUrl, {

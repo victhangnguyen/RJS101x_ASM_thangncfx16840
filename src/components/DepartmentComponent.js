@@ -10,20 +10,26 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 //! imp Actions
 import { fetchDepartments } from '../redux/features/department/departmentSlice';
+import staffSlice, { fetchStaffs } from '../redux/features/staff/staffSlice';
 //! the Presentational Component
-function RenderDepartment({ department }) {
+function RenderDepartment({ id, name, numberOfStaff }) {
   return (
     <div className="col-12 col-md-6 col-lg-4">
-      <Card className="my-2 border border-3">
-        <CardHeader>
-          {department.name} (#{department.id})
-        </CardHeader>
-        <CardBody>
-          <p>
-            Tên phòng ban: <span className="fw-bold">{department.name}</span>
-          </p>
-          <p className="m-0">Số lượng nhân viên: {department.numberOfStaff}</p>
-        </CardBody>
+      <Card className="card-effect my-2 border border-3">
+        <Link to={`/departments/${id}`}>
+          <CardHeader>
+            {name} (#{id})
+          </CardHeader>
+          <CardBody>
+            <p>
+              Tên phòng ban: <span className="fw-bold">{name}</span>
+            </p>
+            <p className="m-0">
+              Số lượng nhân viên:{' '}
+              <span className="fw-bold">{numberOfStaff}</span>
+            </p>
+          </CardBody>
+        </Link>
       </Card>
     </div>
   );
@@ -36,8 +42,10 @@ function Department() {
   //! componentDidMount
   React.useEffect(() => {
     dispatch(fetchDepartments());
+    dispatch(fetchStaffs());
   }, []);
 
+  const staffs = useSelector((state) => state.staffs);
   const departments = useSelector((state) => state.departments);
   console.log(
     '%c_deparmentLoading: ',
@@ -46,7 +54,15 @@ function Department() {
   ); //! __DEBUG
 
   const departmentList = departments.entities?.map((department) => (
-    <RenderDepartment key={department.id} department={department} />
+    <RenderDepartment
+      key={department.id}
+      id={department.id}
+      name={department.name}
+      numberOfStaff={
+        staffs.entities.filter((staff) => staff.departmentId === department.id)
+          .length
+      }
+    />
   ));
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">

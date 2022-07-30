@@ -1,25 +1,32 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { baseUrl } from '../../../shared/baseUrl';
 import * as staffAPI from '../staffAPI';
 
-//! TS interface
+//! interfaceTS
 // interface UsersState {
 //   entities: []
 //   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
 // }
 
-// postStaff: (state, action) => {
-//   console.log('slice staff: action', action);
-//   //! nextState
-//   return [...state, { id: Date.now(), ...action.payload }];
-// },
-
 export const fetchStaffs = createAsyncThunk('staffs/fetchAll', async () => {
   const staffs = await staffAPI.fetchAll();
+  console.log('%c_fetchStaff', 'color: violet; font-weight: bold', staffs); //! __DEBUG
   return staffs;
 });
 
-//! POST return staffs[]
+export const fetchStaffsByDeptId = createAsyncThunk(
+  'staffs/fetchStaffsByDeptId',
+  async (deptId, thunkAPI) => {
+    const staffs = await staffAPI.fetchByDeptId(deptId);
+    console.log(
+      '%c_fetchStaffByDeptId: ',
+      'color: violet; font-weight: bold',
+      staffs
+    ); //! __DEBUG
+
+    return staffs;
+  }
+);
+
 export const addStaff = createAsyncThunk(
   'staffs/addStaff',
   (newStaff, thunkAPI) => {
@@ -42,29 +49,39 @@ const staffsSlice = createSlice({
     //   return state;
     // },
   },
-  extraReducers: (builer) => {
-    builer.addCase(fetchStaffs.pending, (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchStaffs.pending, (state) => {
       state.loading = 'pending';
     });
-    builer.addCase(fetchStaffs.fulfilled, (state, action) => {
+    builder.addCase(fetchStaffs.fulfilled, (state, action) => {
       state.loading = 'succeeded';
       state.entities = action.payload;
     });
-    builer.addCase(fetchStaffs.rejected, (state, action) => {
+    builder.addCase(fetchStaffs.rejected, (state, action) => {
       state.loading = 'failed';
       state.errorMessage = action.payload;
     });
-    builer.addCase(addStaff.pending, (state) => {
+    builder.addCase(addStaff.pending, (state) => {
       state.loading = 'pending';
     });
-    builer.addCase(addStaff.fulfilled, (state, action) => {
+    builder.addCase(addStaff.fulfilled, (state, action) => {
       state.loading = 'succeeded';
-      //! immutate with produce immer
       state.entities.push(action.payload);
     });
-    builer.addCase(addStaff.rejected, (state, action) => {
+    builder.addCase(addStaff.rejected, (state, action) => {
       state.loading = 'failed';
-      // state.errorMessage = action.payload;
+      state.errorMessage = action.payload;
+    });
+    builder.addCase(fetchStaffsByDeptId.pending, (state) => {
+      state.loading = 'pending';
+    });
+    builder.addCase(fetchStaffsByDeptId.fulfilled, (state, action) => {
+      state.loading = 'succeeded';
+      state.entities = action.payload;
+    });
+    builder.addCase(fetchStaffsByDeptId, (state, action) => {
+      state.loading = 'failed';
+      state.errorMessage = action.payload;
     });
   },
 });

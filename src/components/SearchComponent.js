@@ -21,7 +21,7 @@ function RenderStaff({ staff }) {
   return (
     <div key={staff.id} className="col-6 col-md-4 col-lg-2">
       <Card
-        className="card-staff my-2 border border-3"
+        className="card-effect my-2 border border-3"
         // onClick={onSelectedStaff.bind(this, staff.id)}
       >
         <Link to={`/staffs/${staff.id}`}>

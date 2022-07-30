@@ -11,15 +11,18 @@ import {
   Button,
   Row,
   Col,
+  Breadcrumb,
+  BreadcrumbItem,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { sortBy } from '../utils';
 //! imp RTK
 import { useDispatch, useSelector } from 'react-redux';
 //! imp RTK-Actions
-import { fetchStaffs, addStaff } from '../redux/features/staff/staffSlice';
+import { fetchStaffsByDeptId } from '../redux/features/staff/staffSlice';
+import { fetchDepartments } from '../redux/features/department/departmentSlice';
 //! imp Components
-import { CreateStaffModal } from '../components/Modal';
+import { CreateStaffModal } from './Modal';
 import Loading from './LoadingComponent';
 
 //! Presentational Function Component
@@ -48,23 +51,38 @@ function RenderStaff({ staff }) {
 }
 
 //! Container Function
-function StaffListComponent(props) {
-  // console.log('context StaffList');
+function StaffDeptListComponent(props) {
   const inputSearch = React.useRef();
-  const dispatch = useDispatch();
-  const staffs = useSelector((state) => state.staffs);
-  // const staffLoading = useSelector((state) => state.staffs.loading);
-
   const [keywordSearch, setKeywordSearch] = React.useState(
     inputSearch.current?.value ? inputSearch.current.value : ''
   );
+  const location = useLocation();
+  const params = useParams();
+  console.log('%c_params: ', 'color: brown; font-weight: bold', params); //! __DEBUG
+
+  const dispatch = useDispatch();
+  const staffs = useSelector((state) => state.staffs);
+  // console.log(
+  //   '%c_loading-StaffDept: ',
+  //   'color: green; font-weight: bold',
+  //   staffs.loading
+  // ); //! __DEBUG
+  const currentDept = useSelector((state) => state.departments).entities.filter(
+    (dept) => dept.id.toLowerCase() === params.deptId.toLowerCase()
+  )[0];
+  // console.log('%c_currentDept: ', 'color: red; font-weight: bold', currentDept); //! __DEBUG
+
   const [setting, setSetting] = React.useState({ sort: 'id-ascending' });
 
   //! componentDidMount
   React.useEffect(() => {
-    dispatch(fetchStaffs());
+    dispatch(fetchStaffsByDeptId(params.deptId));
+    dispatch(fetchDepartments());
   }, []);
 
+  // const staffsList = sortBy(staffs.entities).map((staff) => (
+  //   <RenderStaff key={staff.id} staff={staff} />
+  // ));
   const staffsList = sortBy(
     //! staffs.entities => thêm 1 lần render
     staffs.entities.filter((staff) => {
@@ -76,12 +94,6 @@ function StaffListComponent(props) {
     }),
     setting.sort
   ).map((staff) => <RenderStaff key={staff.id} staff={staff} />);
-
-  // console.log(
-  //   '%c_loading: ',
-  //   'color: brown; font-weight: bold',
-  //   staffs.loading
-  // ); //! __DEBUG
 
   const handleSearch = function (e) {
     e.preventDefault();
@@ -96,24 +108,22 @@ function StaffListComponent(props) {
     });
   };
 
-  // name,
-  // doB,
-  // salaryScale,
-  // startDate,
-  // department,
-  // annualLeav,
-  // overTime,
-  // salary
   const handleAddStaff = function (staff) {
-    dispatch(addStaff(staff));
+    // dispatch(addStaff(staff));
   };
 
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5 mx-md-5">
       <div className="hm-title">
         <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/staffs">Nhân viên</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>Phòng ban</BreadcrumbItem>
+          </Breadcrumb>
           <div className="col-6 col-md-8">
-            <h3>Nhân viên</h3>
+            <h3>{`Phòng ${currentDept?.name}`}</h3>
           </div>
           <div className="col-6 col-md-4">
             <FormGroup className="d-flex justify-content-center align-items-center">
@@ -145,7 +155,7 @@ function StaffListComponent(props) {
               {
                 //! here CreateStaffModal
               }
-              <CreateStaffModal addStaff={handleAddStaff} />
+              {/* <CreateStaffModal addStaff={handleAddStaff} /> */}
             </Col>
             <Col className="col-9 col-md-5 offset-0 offset-md-2 my-2">
               <Input
@@ -176,4 +186,4 @@ function StaffListComponent(props) {
   );
 }
 
-export default StaffListComponent;
+export default StaffDeptListComponent;

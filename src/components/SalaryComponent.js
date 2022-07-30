@@ -25,7 +25,7 @@ function numberWithCommas(x) {
 function RenderStaff({ staff }) {
   return (
     <div className="col-12 col-md-6 col-lg-4">
-      <Card className="card-staff my-2 border border-3">
+      <Card className="card-effect my-2 border border-3">
         <Link to={`/staffs/${staff.id}`}>
           <CardHeader className="fw-bold">
             {staff.name} (#{staff.id})

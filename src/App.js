@@ -9,6 +9,7 @@ import Department from './components/DepartmentComponent';
 import Salary from './components/SalaryComponent';
 import Search from './components/SearchComponent';
 import StaffDetail from './components/StaffDetailComponent';
+import StaffDetpListComponent from './components/StaffDetpListComponent';
 
 //! imp Datas
 import PageNotFound from './pages/PageNotFound';
@@ -28,7 +29,11 @@ export class App extends React.Component {
               <Route path="staffs" element={<Staff />} />
               <Route path="staffs/:staffId" element={<StaffDetail />} />
 
-              <Route path="department" element={<Department />} />
+              <Route path="departments" element={<Department />} />
+              <Route
+                path="departments/:deptId"
+                element={<StaffDetpListComponent />}
+              />
               <Route path="salary" element={<Salary />} />
               <Route path="search" element={<Search />} />
             </Route>

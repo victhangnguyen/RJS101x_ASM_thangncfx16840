@@ -65,11 +65,11 @@ svg {
   pointer-events: fill !important;
 }
 
-.card.card-staff {
+.card.card-effect {
   transition: 0.2s;
 }
 
-.card.card-staff:hover {
+.card.card-effect:hover {
   border: 3px solid var(--color-main) !important;
 
   transform: scale(1.04);

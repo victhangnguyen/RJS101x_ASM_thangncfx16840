@@ -25,7 +25,7 @@ function CreateStaffModal({ addStaff }) {
       doB: '',
       salaryScale: '',
       startDate: '',
-      department: '',
+      departmentId: '',
       annualLeave: '',
       overTime: '',
       salary: '',
@@ -38,8 +38,8 @@ function CreateStaffModal({ addStaff }) {
         .max(30, 'Yều cầu ít hơn 30 ký tự'),
       doB: Yup.string().required('Yêu nhập ngày, tháng, năm'),
       startDate: Yup.string().required('Yêu nhập ngày, tháng, năm'),
-      department: Yup.string()
-        .required('Yêu cầu nhập')
+      departmentId: Yup.string()
+        .required('Yêu cầu chọn phòng ban')
         .min(2, 'Yều cầu nhiều hơn 1 ký tự')
         .max(20, 'Yều cầu ít hơn 20 ký tự'),
       salaryScale: Yup.number()
@@ -150,29 +150,36 @@ function CreateStaffModal({ addStaff }) {
               ) : null}
             </FormGroup>
             {
-              //! __department
+              //! __departmentId
             }
             <FormGroup row>
-              <Label htmlFor="department">Phòng ban</Label>
+              <Label htmlFor="departmentId">Phòng ban</Label>
               <Input
-                id="department"
-                name="department"
-                type="text"
+                id="departmentId"
+                name="departmentId"
+                type="select"
                 placeholder="Tên phòng ban"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.department}
+                value={formik.values.departmentId}
                 valid={
-                  formik.touched.department &&
-                  formik.errors.department === undefined
+                  formik.touched.departmentId &&
+                  formik.errors.departmentId === undefined
                 }
                 invalid={
-                  formik.touched.department &&
-                  formik.errors.department !== undefined
+                  formik.touched.departmentId &&
+                  formik.errors.departmentId !== undefined
                 }
-              />
-              {formik.touched.department && formik.errors.department ? (
-                <FormFeedback>{formik.errors.department}</FormFeedback>
+              >
+                <option value="">Chọn phòng ban</option>
+                <option value="Dept01">Sale</option>
+                <option value="Dept02">HR</option>
+                <option value="Dept03">Marketing</option>
+                <option value="Dept04">IT</option>
+                <option value="Dept05">Finance</option>
+              </Input>
+              {formik.touched.departmentId && formik.errors.departmentId ? (
+                <FormFeedback>{formik.errors.departmentId}</FormFeedback>
               ) : null}
             </FormGroup>
             {

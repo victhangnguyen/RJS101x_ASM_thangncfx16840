@@ -31,7 +31,7 @@ function Header(props) {
     {
       navId: 1,
       navName: 'Phòng Ban',
-      navLink: '/department',
+      navLink: '/departments',
     },
     {
       navId: 2,
