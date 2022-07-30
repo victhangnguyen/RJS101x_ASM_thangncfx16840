@@ -14,8 +14,8 @@ import { Link } from 'react-router-dom';
 import { sortBy } from '../utils';
 //! imp RTK
 import { useDispatch, useSelector } from 'react-redux';
-//! Actions
-import { getStaffs } from '../redux/features/staff/staffSlice';
+//! imp RTK Actions
+import { fetchStaffsSalary } from '../redux/features/staff/staffSlice';
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -50,20 +50,24 @@ function RenderStaff({ staff }) {
 }
 
 function SalaryComponent() {
-  const initilalSetting = {
+  const [setting, setSetting] = React.useState({
     sort: 'id-ascending',
-  };
-  const [setting, setSetting] = React.useState(initilalSetting);
-  // const dispatch = useDispatch();
+  });
+  const dispatch = useDispatch();
 
   //! get Staffs Data
   // dispatch(getStaffs());
   const staffs = useSelector((state) => state.staffs);
 
   //! renderStaff with the Shallow Array (sortBy)
+  //! componentDidMount
+  React.useEffect(() => {
+    dispatch(fetchStaffsSalary());
+  }, []);
+
   const staffList =
     staffs &&
-    sortBy(staffs, setting.sort).map((staff) => (
+    sortBy(staffs.entities, setting.sort).map((staff) => (
       <RenderStaff key={staff.id} staff={staff} />
     ));
 

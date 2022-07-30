@@ -15,6 +15,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { sortBy } from '../utils';
 //! imp RTK
 import { useDispatch, useSelector } from 'react-redux';
+//! imp RTK-Actions
+import { fetchStaffs } from '../redux/features/staff/staffSlice';
 
 //! Presentational Function Component
 function RenderStaff({ staff }) {
@@ -46,27 +48,31 @@ function RenderStaff({ staff }) {
 
 //! container component
 function Search() {
+  const dispatch = useDispatch();
+  const navigateSearch = useNavigateSearch();
+
   //! Uncontrolled Form for Search
   const inputSearch = React.useRef();
 
-  // const dispatch = useDispatch();
   const staffs = useSelector((state) => state.staffs);
 
-  const initialSetting = {
+  const [setting, setSeting] = React.useState({
     sort: 'id-ascending',
-  };
-  const [setting, setSeting] = React.useState(initialSetting);
+  });
   // const [staffList, setStaffList] = React.useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   // console.log('searchParams: ', searchParams.get('keywords')); //! __DEBUG __params
   const keyword = searchParams.get('keyword')?.toLowerCase().replace(/ +/g, '');
   // console.log('keyword: ', keyword); //! type: a b c  => abc
 
-  const navigateSearch = useNavigateSearch();
+  //! componentDidMount
+  React.useEffect(() => {
+    dispatch(fetchStaffs());
+  }, []);
 
   //! Re-render context
   const staffList = sortBy(
-    staffs.filter((staff) => {
+    staffs.entities.filter((staff) => {
       const name = staff.name.toLowerCase().replace(/ +/g, '');
       return (
         String(staff.id) === keyword ||

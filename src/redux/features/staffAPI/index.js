@@ -5,6 +5,11 @@ export const fetchAll = () => {
   return fetch(inputUrl).then((response) => response.json());
 };
 
+export const fetchAllwithSalary = () => {
+  const inputUrl = baseUrl + 'staffsSalary';
+  return fetch(inputUrl).then((response) => response.json());
+};
+
 export const fetchByDeptId = (deptId) => {
   const inputUrl = baseUrl + 'staffs';
   const staffs = fetch(inputUrl)

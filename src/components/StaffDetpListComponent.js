@@ -120,7 +120,10 @@ function StaffDeptListComponent(props) {
             <BreadcrumbItem>
               <Link to="/staffs">Nhân viên</Link>
             </BreadcrumbItem>
-            <BreadcrumbItem active>Phòng ban</BreadcrumbItem>
+            <BreadcrumbItem>
+              <Link to="/departments">Phòng ban</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{currentDept?.id}</BreadcrumbItem>
           </Breadcrumb>
           <div className="col-6 col-md-8">
             <h3>{`Phòng ${currentDept?.name}`}</h3>

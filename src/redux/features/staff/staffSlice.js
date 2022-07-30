@@ -13,6 +13,19 @@ export const fetchStaffs = createAsyncThunk('staffs/fetchAll', async () => {
   return staffs;
 });
 
+export const fetchStaffsSalary = createAsyncThunk(
+  'staffs/fetchAll',
+  async () => {
+    const staffs = await staffAPI.fetchAllwithSalary();
+    console.log(
+      '%c_fetchStaffsSalary',
+      'color: violet; font-weight: bold',
+      staffs
+    ); //! __DEBUG
+    return staffs;
+  }
+);
+
 export const fetchStaffsByDeptId = createAsyncThunk(
   'staffs/fetchStaffsByDeptId',
   async (deptId, thunkAPI) => {
@@ -74,6 +87,7 @@ const staffsSlice = createSlice({
     });
     builder.addCase(fetchStaffsByDeptId.pending, (state) => {
       state.loading = 'pending';
+      state.entities = [];
     });
     builder.addCase(fetchStaffsByDeptId.fulfilled, (state, action) => {
       state.loading = 'succeeded';
