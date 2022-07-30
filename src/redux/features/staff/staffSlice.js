@@ -10,7 +10,8 @@ import * as staffAPI from '../staffAPI';
 export const fetchStaffById = createAsyncThunk(
   'staffs/fetchByIdStatus',
   async (staffId, thunkAPI) => {
-    
+    const staff = await staffAPI.fetchById(staffId);
+    return staff;
   }
 );
 
@@ -101,6 +102,18 @@ const staffsSlice = createSlice({
       state.entities = action.payload;
     });
     builder.addCase(fetchStaffsByDeptId, (state, action) => {
+      state.loading = 'failed';
+      state.errorMessage = action.payload;
+    });
+    builder.addCase(fetchStaffById.pending, (state) => {
+      state.loading = 'pending';
+      state.entities = [];
+    });
+    builder.addCase(fetchStaffById.fulfilled, (state, action) => {
+      state.loading = 'succeeded';
+      state.entities = action.payload;
+    });
+    builder.addCase(fetchStaffById.rejected, (state, action) => {
       state.loading = 'failed';
       state.errorMessage = action.payload;
     });

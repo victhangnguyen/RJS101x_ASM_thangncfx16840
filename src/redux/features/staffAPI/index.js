@@ -1,20 +1,20 @@
 import { baseUrl } from '../../../shared/baseUrl';
 
-export const fetchById= () => {
+export const fetchById = (staffId) => {
   const inputUrl = baseUrl + 'staffs';
-  return fetch(inputUrl)
-}
+  const staff = fetch(inputUrl)
+    .then((response) => response.json())
+    .then((staffs) => staffs.filter((staff) => String(staff.id) === staffId));
+    console.log('%c_fetchById: ', 'color: blue; font-weight: bold', staff); //! __DEBUG
+    console.log('%c_staffId: ', 'color: blue; font-weight: bold', staffId); //! __DEBUG
+    
+  return staff;
+};
 
 export const fetchByDeptId = (deptId) => {
   const inputUrl = baseUrl + 'departments/' + deptId;
-  const staffs = fetch(inputUrl)
-    .then((response) => response.json())
-    // .then((staffs) =>
-    //   staffs.filter(
-    //     (staff) => staff.departmentId.toLowerCase() === deptId.toLowerCase()
-    //   )
-    // );
-  //! return Promise
+  const staffs = fetch(inputUrl).then((response) => response.json());
+
   return staffs;
 };
 
