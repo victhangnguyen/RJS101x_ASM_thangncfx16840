@@ -5,6 +5,7 @@ import {
   CardHeader,
   Breadcrumb,
   BreadcrumbItem,
+  Button,
 } from 'reactstrap';
 import { toVNDate } from '../utils';
 import { useParams, Link } from 'react-router-dom';
@@ -12,36 +13,35 @@ import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 //! imp RTK-Actions
 import { fetchStaffById } from '../redux/features/staff/staffSlice';
+import { editStaff } from '../redux/features/staff/staffSlice';
+//! imp Component
+import { EditStaffModal } from './Modal';
 
 //! presentational function Component
-function RenderStaff({
-  id,
-  name,
-  doB,
-  departmentId,
-  image,
-  startDate,
-  salaryScale,
-  annualLeave,
-  overTime,
-}) {
+function RenderStaff({ staff, handleEdit }) {
   return (
     <Card>
-      <CardHeader className="px-3">Thông tin nhân viên</CardHeader>
+      <CardHeader className="px-3 py-2 d-flex align-items-center justify-content-between">
+        <div>Thông tin nhân viên</div>
+        {
+          //! __btnEdit
+        }
+        <EditStaffModal currentStaff={staff} handleEdit={handleEdit} />
+      </CardHeader>
       <CardBody className="px-3">
         <div className="row">
           <div className="col-12 col-md-4 col-lg-3">
             <div className="card-avatar">
-              <img src={image} alt="" />
+              <img src={staff?.image} alt={staff.name} />
             </div>
           </div>
           <div className="col-12 col-md-8 col-lg-9">
-            <p className="fw-bold">Họ và tên: {name}</p>
-            <p>Ngày sinh: {toVNDate(doB)}</p>
-            <p>Ngày vào công ty: {toVNDate(startDate)}</p>
-            <p>Phòng ban: {departmentId}</p>
-            <p>Số ngày nghỉ còn lại: {annualLeave}</p>
-            <p>Số ngày đã làm thêm: {overTime}</p>{' '}
+            <p className="fw-bold">Họ và tên: {staff?.name}</p>
+            <p>Ngày sinh: {toVNDate(staff?.doB)}</p>
+            <p>Ngày vào công ty: {toVNDate(staff?.startDate)}</p>
+            <p>Phòng ban: {staff?.departmentId}</p>
+            <p>Số ngày nghỉ còn lại: {staff?.annualLeave}</p>
+            <p>Số ngày đã làm thêm: {staff?.overTime}</p>{' '}
           </div>
         </div>
       </CardBody>
@@ -54,16 +54,32 @@ function StaffDetail() {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const staff = useSelector((state) => state.staffs.entities)[0];
+  const staff = useSelector((state) => state.staffs);
+  const currentStaff = staff.entities[0];
 
-  //! componentDidMount
   React.useEffect(() => {
     dispatch(fetchStaffById(params.staffId));
   }, []);
-  console.log('%c_staff: ', 'color: violet; font-weight: bold', staff); //! __DEBUG
+  // console.log('%c_loadingStaffDetail: ', 'color: blue; font-weight: bold', staff.loading); //! __DEBUG
+  
 
+  // console.log(
+  //   '%c_Render Staff Detail: ',
+  //   'color: green; font-weight: bold',
+  //   currentStaff
+  // ); //! __DEBUG
+
+  const handleEdit = (staffValues) => {
+    // console.log(
+    //   '%c_StaffDetail: ',
+    //   'color: red; font-weight: bold',
+    //   staffValues
+    // ); //! __DEBUG
+
+    dispatch(editStaff(staffValues));
+  };
   //! guard clause
-  if (!staff) return <></>;
+  if (!currentStaff) return <></>;
 
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">
@@ -71,21 +87,11 @@ function StaffDetail() {
         <BreadcrumbItem>
           <Link to="/staffs">Nhân viên</Link>
         </BreadcrumbItem>
-        <BreadcrumbItem active>{staff?.name}</BreadcrumbItem>
+        <BreadcrumbItem active>{currentStaff?.name}</BreadcrumbItem>
       </Breadcrumb>
       <div className="row">
         <div className="col-12">
-          <RenderStaff
-            id={staff.id}
-            name={staff.name}
-            doB={staff.doB}
-            departmentId={staff.departmentId}
-            image={staff.image}
-            startDate={staff.startDate}
-            salaryScale={staff.salaryScale}
-            annualLeave={staff.annualLeave}
-            overTime={staff.overTime}
-          />
+          <RenderStaff staff={currentStaff} handleEdit={handleEdit} />
         </div>
       </div>
     </div>

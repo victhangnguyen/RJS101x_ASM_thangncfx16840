@@ -47,11 +47,11 @@ function Department() {
 
   const staffs = useSelector((state) => state.staffs);
   const departments = useSelector((state) => state.departments);
-  console.log(
-    '%c_deparmentLoading: ',
-    'color: blue; font-weight: bold',
-    departments.loading
-  ); //! __DEBUG
+  // console.log(
+  //   '%c_deparmentLoading: ',
+  //   'color: blue; font-weight: bold',
+  //   departments.loading
+  // ); //! __DEBUG
 
   const departmentList = departments.entities?.map((department) => (
     <RenderDepartment

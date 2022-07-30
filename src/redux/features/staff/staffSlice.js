@@ -17,7 +17,7 @@ export const fetchStaffById = createAsyncThunk(
 
 export const fetchStaffs = createAsyncThunk('staffs/fetchAll', async () => {
   const staffs = await staffAPI.fetchAll();
-  console.log('%c_fetchStaff', 'color: violet; font-weight: bold', staffs); //! __DEBUG
+  // console.log('%c_fetchStaff', 'color: violet; font-weight: bold', staffs); //! __DEBUG
   return staffs;
 });
 
@@ -25,11 +25,11 @@ export const fetchStaffsSalary = createAsyncThunk(
   'staffs/fetchAll',
   async () => {
     const staffs = await staffAPI.fetchAllwithSalary();
-    console.log(
-      '%c_fetchStaffsSalary',
-      'color: violet; font-weight: bold',
-      staffs
-    ); //! __DEBUG
+    // console.log(
+    //   '%c_fetchStaffsSalary',
+    //   'color: violet; font-weight: bold',
+    //   staffs
+    // ); //! __DEBUG
     return staffs;
   }
 );
@@ -38,11 +38,11 @@ export const fetchStaffsByDeptId = createAsyncThunk(
   'staffs/fetchStaffsByDeptId',
   async (deptId, thunkAPI) => {
     const staffs = await staffAPI.fetchByDeptId(deptId);
-    console.log(
-      '%c_fetchStaffByDeptId: ',
-      'color: violet; font-weight: bold',
-      staffs
-    ); //! __DEBUG
+    // console.log(
+    //   '%c_fetchStaffByDeptId: ',
+    //   'color: violet; font-weight: bold',
+    //   staffs
+    // ); //! __DEBUG
 
     return staffs;
   }
@@ -55,6 +55,14 @@ export const addStaff = createAsyncThunk(
   }
 );
 
+export const editStaff = createAsyncThunk(
+  'staffs/editStaff',
+  async (staff, thunkAPI) => {
+    const editedStaff = staffAPI.edit(staff);
+    return editedStaff;
+  }
+);
+
 const initialState = {
   entities: [],
   loading: 'idle',
@@ -64,12 +72,7 @@ const initialState = {
 const staffsSlice = createSlice({
   name: 'staffs',
   initialState,
-  reducers: {
-    // addStaffs: (state) => {
-    //   state = STAFFS; //! nextState
-    //   return state;
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchStaffs.pending, (state) => {
       state.loading = 'pending';
@@ -91,6 +94,18 @@ const staffsSlice = createSlice({
     });
     builder.addCase(addStaff.rejected, (state, action) => {
       state.loading = 'failed';
+      state.errorMessage = action.payload;
+    });
+    builder.addCase(editStaff.pending, (state) => {
+      state.loading = 'pending';
+    });
+    builder.addCase(editStaff.fulfilled, (state, action) => {
+      state.loading = 'succeded';
+      state.entities = action.payload;
+    });
+    builder.addCase(editStaff.rejected, (state, action) => {
+      state.loading = 'failed';
+      state.entities = [];
       state.errorMessage = action.payload;
     });
     builder.addCase(fetchStaffsByDeptId.pending, (state) => {

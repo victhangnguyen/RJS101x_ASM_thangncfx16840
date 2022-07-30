@@ -56,9 +56,8 @@ function StaffDeptListComponent(props) {
   const [keywordSearch, setKeywordSearch] = React.useState(
     inputSearch.current?.value ? inputSearch.current.value : ''
   );
-  const location = useLocation();
   const params = useParams();
-  console.log('%c_params: ', 'color: brown; font-weight: bold', params); //! __DEBUG
+  // console.log('%c_params: ', 'color: brown; font-weight: bold', params); //! __DEBUG
 
   const dispatch = useDispatch();
   const staffs = useSelector((state) => state.staffs);

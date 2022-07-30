@@ -5,16 +5,12 @@ export const fetchById = (staffId) => {
   const staff = fetch(inputUrl)
     .then((response) => response.json())
     .then((staffs) => staffs.filter((staff) => String(staff.id) === staffId));
-    console.log('%c_fetchById: ', 'color: blue; font-weight: bold', staff); //! __DEBUG
-    console.log('%c_staffId: ', 'color: blue; font-weight: bold', staffId); //! __DEBUG
-    
   return staff;
 };
 
 export const fetchByDeptId = (deptId) => {
   const inputUrl = baseUrl + 'departments/' + deptId;
   const staffs = fetch(inputUrl).then((response) => response.json());
-
   return staffs;
 };
 
@@ -38,4 +34,23 @@ export const add = (newStaff) => {
     },
     credentials: 'same-origin',
   }).then((response) => response.json());
+};
+
+export const edit = (staffValues) => {
+  const inputUrl = baseUrl + 'staffs';
+  const editedStaff = fetch(inputUrl, {
+    method: 'PATCH',
+    body: JSON.stringify(staffValues),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'same-origin',
+  })
+    .then((response) => response.json()) //! Server return All of Staffs.
+    .then(
+      (staffs) =>
+        staffs.filter((staff) => String(staff.id) === String(staffValues.id)) //! return editedStaff
+    );
+  // console.log('%c_editedStaff: ', 'color: green; font-weight: bold', res); //! __DEBUG
+  return editedStaff;
 };

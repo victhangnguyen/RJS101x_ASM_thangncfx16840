@@ -55,9 +55,7 @@ function CreateStaffModal({ addStaff }) {
         .max(30, 'Yều cầu nhỏ hơn số 30'),
     }),
     onSubmit: (values) => {
-      console.log('handleSubmit');
       if (formik.isValid && formik.dirty) {
-        // console.log(values);
         addStaff(values);
       }
       formik.resetForm();
