@@ -1,5 +1,23 @@
 import { baseUrl } from '../../../shared/baseUrl';
 
+export const fetchById= () => {
+  const inputUrl = baseUrl + 'staffs';
+  return fetch(inputUrl)
+}
+
+export const fetchByDeptId = (deptId) => {
+  const inputUrl = baseUrl + 'departments/' + deptId;
+  const staffs = fetch(inputUrl)
+    .then((response) => response.json())
+    // .then((staffs) =>
+    //   staffs.filter(
+    //     (staff) => staff.departmentId.toLowerCase() === deptId.toLowerCase()
+    //   )
+    // );
+  //! return Promise
+  return staffs;
+};
+
 export const fetchAll = () => {
   const inputUrl = baseUrl + 'staffs';
   return fetch(inputUrl).then((response) => response.json());
@@ -8,19 +26,6 @@ export const fetchAll = () => {
 export const fetchAllwithSalary = () => {
   const inputUrl = baseUrl + 'staffsSalary';
   return fetch(inputUrl).then((response) => response.json());
-};
-
-export const fetchByDeptId = (deptId) => {
-  const inputUrl = baseUrl + 'staffs';
-  const staffs = fetch(inputUrl)
-    .then((response) => response.json())
-    .then((staffs) =>
-      staffs.filter(
-        (staff) => staff.departmentId.toLowerCase() === deptId.toLowerCase()
-      )
-    );
-  //! return Promise
-  return staffs;
 };
 
 export const add = (newStaff) => {

@@ -5,23 +5,13 @@ import {
   Breadcrumb,
   BreadcrumbItem,
 } from 'reactstrap';
-// import { Link } from 'react-router-dom';
+import { toVNDate } from '../utils';
 import { useParams, Link } from 'react-router-dom';
+//! imp RTK
 import { useDispatch, useSelector } from 'react-redux';
-//! imp Actions
-// import { getStaffs } from '../redux/features/staffs/staffsSlice';
+//! imp RTK-Actions
+import { fetchStaffs } from '../redux/features/staff/staffSlice';
 
-function getddmmyyyy(isoDate) {
-  const date = new Date(isoDate);
-  const yyyy = date.getFullYear();
-  let mm = date.getMonth() + 1;
-  let dd = date.getDate();
-
-  if (dd < 10) dd = '0' + dd;
-  if (mm < 10) mm = '0' + mm;
-
-  return dd + '/' + mm + '/' + yyyy;
-}
 //! presentational function Component
 function RenderStaff({ staff }) {
   return (
@@ -36,8 +26,8 @@ function RenderStaff({ staff }) {
           </div>
           <div className="col-12 col-md-8 col-lg-9">
             <p className="fw-bold">Họ và tên: {staff.name}</p>
-            <p>Ngày sinh: {getddmmyyyy(staff.doB)}</p>
-            <p>Ngày vào công ty: {getddmmyyyy(staff.startDate)}</p>
+            <p>Ngày sinh: {toVNDate(staff.doB)}</p>
+            <p>Ngày vào công ty: {toVNDate(staff.startDate)}</p>
             <p>Phòng ban: {staff.department.name}</p>
             <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
             <p>Số ngày đã làm thêm: {staff.overTime}</p>{' '}

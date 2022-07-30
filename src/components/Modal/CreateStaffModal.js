@@ -172,11 +172,11 @@ function CreateStaffModal({ addStaff }) {
                 }
               >
                 <option value="">Chọn phòng ban</option>
-                <option value="Dept01">Sale</option>
-                <option value="Dept02">HR</option>
-                <option value="Dept03">Marketing</option>
-                <option value="Dept04">IT</option>
-                <option value="Dept05">Finance</option>
+                <option value="Dept01">#Dept01 - Sale </option>
+                <option value="Dept02">#Dept02 - HR </option>
+                <option value="Dept03">#Dept03 - Marketing </option>
+                <option value="Dept04">#Dept04 - IT</option>
+                <option value="Dept05">#Dept05 - Finance</option>
               </Input>
               {formik.touched.departmentId && formik.errors.departmentId ? (
                 <FormFeedback>{formik.errors.departmentId}</FormFeedback>

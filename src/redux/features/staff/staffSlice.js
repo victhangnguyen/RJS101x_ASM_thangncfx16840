@@ -7,6 +7,13 @@ import * as staffAPI from '../staffAPI';
 //   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
 // }
 
+export const fetchStaffById = createAsyncThunk(
+  'staffs/fetchByIdStatus',
+  async (staffId, thunkAPI) => {
+    
+  }
+);
+
 export const fetchStaffs = createAsyncThunk('staffs/fetchAll', async () => {
   const staffs = await staffAPI.fetchAll();
   console.log('%c_fetchStaff', 'color: violet; font-weight: bold', staffs); //! __DEBUG

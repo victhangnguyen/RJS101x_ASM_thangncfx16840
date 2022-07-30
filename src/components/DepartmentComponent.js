@@ -58,10 +58,7 @@ function Department() {
       key={department.id}
       id={department.id}
       name={department.name}
-      numberOfStaff={
-        staffs.entities.filter((staff) => staff.departmentId === department.id)
-          .length
-      }
+      numberOfStaff={department.numberOfStaff}
     />
   ));
   return (
