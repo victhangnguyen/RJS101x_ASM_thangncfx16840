@@ -24,7 +24,7 @@ export const fetchAllwithSalary = () => {
   return fetch(inputUrl).then((response) => response.json());
 };
 
-export const add = (newStaff) => {
+export const addOne = (newStaff) => {
   const inputUrl = baseUrl + 'staffs';
   return fetch(inputUrl, {
     method: 'POST',
@@ -36,7 +36,17 @@ export const add = (newStaff) => {
   }).then((response) => response.json());
 };
 
-export const edit = (staffValues) => {
+export const deleteOne = (staffId) => {
+  const inputUrl = baseUrl + `staffs/${staffId}`;
+  return fetch(inputUrl, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => response.json());
+};
+
+export const editOne = (staffValues) => {
   const inputUrl = baseUrl + 'staffs';
   const editedStaff = fetch(inputUrl, {
     method: 'PATCH',

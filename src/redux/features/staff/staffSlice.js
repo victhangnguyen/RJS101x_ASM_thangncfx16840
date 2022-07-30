@@ -17,7 +17,6 @@ export const fetchStaffById = createAsyncThunk(
 
 export const fetchStaffs = createAsyncThunk('staffs/fetchAll', async () => {
   const staffs = await staffAPI.fetchAll();
-  // console.log('%c_fetchStaff', 'color: violet; font-weight: bold', staffs); //! __DEBUG
   return staffs;
 });
 
@@ -25,11 +24,6 @@ export const fetchStaffsSalary = createAsyncThunk(
   'staffs/fetchAll',
   async () => {
     const staffs = await staffAPI.fetchAllwithSalary();
-    // console.log(
-    //   '%c_fetchStaffsSalary',
-    //   'color: violet; font-weight: bold',
-    //   staffs
-    // ); //! __DEBUG
     return staffs;
   }
 );
@@ -38,12 +32,6 @@ export const fetchStaffsByDeptId = createAsyncThunk(
   'staffs/fetchStaffsByDeptId',
   async (deptId, thunkAPI) => {
     const staffs = await staffAPI.fetchByDeptId(deptId);
-    // console.log(
-    //   '%c_fetchStaffByDeptId: ',
-    //   'color: violet; font-weight: bold',
-    //   staffs
-    // ); //! __DEBUG
-
     return staffs;
   }
 );
@@ -51,14 +39,22 @@ export const fetchStaffsByDeptId = createAsyncThunk(
 export const addStaff = createAsyncThunk(
   'staffs/addStaff',
   (newStaff, thunkAPI) => {
-    return staffAPI.add(newStaff).then((staffs) => staffs.at(-1)); //! ES2022 get lastEle
+    return staffAPI.addOne(newStaff).then((staffs) => staffs.at(-1)); //! ES2022 get lastEle
+  }
+);
+
+export const deleteStaff = createAsyncThunk(
+  'staffs/deleteStaff',
+  async (staffId, thunkAPI) => {
+    const staffs = staffAPI.deleteOne(staffId);
+    return staffs;
   }
 );
 
 export const editStaff = createAsyncThunk(
   'staffs/editStaff',
   async (staff, thunkAPI) => {
-    const editedStaff = staffAPI.edit(staff);
+    const editedStaff = staffAPI.editOne(staff);
     return editedStaff;
   }
 );
@@ -93,6 +89,17 @@ const staffsSlice = createSlice({
       state.entities.push(action.payload);
     });
     builder.addCase(addStaff.rejected, (state, action) => {
+      state.loading = 'failed';
+      state.errorMessage = action.payload;
+    });
+    builder.addCase(deleteStaff.pending, (state) => {
+      state.loading = 'pending';
+    });
+    builder.addCase(deleteStaff.fulfilled, (state, action) => {
+      state.loading = 'succeded';
+      state.entities = action.payload;
+    });
+    builder.addCase(deleteStaff.rejected, (state, action) => {
       state.loading = 'failed';
       state.errorMessage = action.payload;
     });

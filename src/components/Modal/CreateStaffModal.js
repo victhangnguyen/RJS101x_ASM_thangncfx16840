@@ -74,7 +74,12 @@ function CreateStaffModal({ addStaff }) {
 
   return (
     <div>
-      <Button type="button" color="danger" onClick={toggleModal}>
+      <Button
+        className="my-2"
+        type="button"
+        color="danger"
+        onClick={toggleModal}
+      >
         Thêm nhân viên
       </Button>
       <Modal isOpen={isModalOpen} toggle={toggleModal}>

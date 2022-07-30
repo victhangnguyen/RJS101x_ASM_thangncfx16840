@@ -100,7 +100,7 @@ function EditStaffModal({ currentStaff, handleEdit }) {
 
   return (
     <div>
-      <Button type="button" color="warning" onClick={toggleModal}>
+      <Button className='my-2' type="button" color="warning" onClick={toggleModal}>
         Thay đổi thông tin
       </Button>
       <Modal isOpen={isModalOpen} toggle={toggleModal}>
