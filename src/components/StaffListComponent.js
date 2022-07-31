@@ -53,7 +53,10 @@ function StaffListComponent(props) {
   const inputSearch = React.useRef();
   const dispatch = useDispatch();
   const staffs = useSelector((state) => state.staffs);
-  // const staffLoading = useSelector((state) => state.staffs.loading);
+
+  // console.log('%c_staffsLoad: ', 'color: red; font-weight: bold', staffs.loading); //! __DEBUG
+
+  // const [staffList, setStaffList] = React.useState(staffs.entities);
 
   const [keywordSearch, setKeywordSearch] = React.useState(
     inputSearch.current?.value ? inputSearch.current.value : ''
@@ -65,9 +68,14 @@ function StaffListComponent(props) {
     dispatch(fetchStaffs());
   }, []);
 
+  //! Re-render with dependencies
+  // React.useEffect(() => {
+  //   setStaffList(staffs.entities);
+  // }, [staffs], );
+
   const staffsList = sortBy(
-    //! staffs.entities => thêm 1 lần render
-    staffs.entities.filter((staff) => {
+    staffs.entities?.filter((staff) => {
+      //! question tie
       const name = staff?.name.toLowerCase().replace(/ +/g, '');
       return (
         String(staff.id) === keywordSearch ||
@@ -76,12 +84,6 @@ function StaffListComponent(props) {
     }),
     setting.sort
   ).map((staff) => <RenderStaff key={staff.id} staff={staff} />);
-
-  // console.log(
-  //   '%c_loading: ',
-  //   'color: brown; font-weight: bold',
-  //   staffs.loading
-  // ); //! __DEBUG
 
   const handleSearch = function (e) {
     e.preventDefault();
@@ -96,16 +98,26 @@ function StaffListComponent(props) {
     });
   };
 
-  // name,
-  // doB,
-  // salaryScale,
-  // startDate,
-  // department,
-  // annualLeav,
-  // overTime,
-  // salary
   const handleAddStaff = function (staff) {
     dispatch(addStaff(staff));
+  };
+
+  const render = function () {
+    if (staffs.loading === 'pending') {
+      return (
+        <div className="row">
+          <Loading />
+        </div>
+      );
+    } else if (staffs.loading === 'failed') {
+      return (
+        <div className="row">
+          <h3>{staffs.errorMessage}</h3>
+        </div>
+      );
+    } else if (staffs.loading === 'succeeded') {
+      return <div className="row">{staffsList}</div>;
+    }
   };
 
   return (
@@ -150,8 +162,8 @@ function StaffListComponent(props) {
             <Col className="col-9 col-md-5 offset-0 offset-md-2 my-2">
               <Input
                 /*
-              innerRef is the ref attribute
-              */
+        innerRef is the ref attribute
+        */
                 innerRef={inputSearch}
                 id="search"
                 name="search"
@@ -170,8 +182,7 @@ function StaffListComponent(props) {
           </Row>
         </FormGroup>
       </Form>
-
-      <div className="row">{staffsList}</div>
+      {render()}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as staffAPI from '../staffAPI';
+import { baseUrl } from '../../../shared/baseUrl';
 
 //! interfaceTS
 // interface UsersState {
@@ -10,52 +11,90 @@ import * as staffAPI from '../staffAPI';
 export const fetchStaffById = createAsyncThunk(
   'staffs/fetchByIdStatus',
   async (staffId, thunkAPI) => {
-    const staff = await staffAPI.fetchById(staffId);
-    return staff;
+    try {
+      const staff = await staffAPI.fetchById(staffId);
+      return thunkAPI.fulfillWithValue(staff);
+    } catch (error) {
+      console.log('%c_rejected: ', 'color: red; font-weight: bold', error); //! __DEBUG
+
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
 );
 
-export const fetchStaffs = createAsyncThunk('staffs/fetchAll', async () => {
-  const staffs = await staffAPI.fetchAll();
-  return staffs;
-});
+export const fetchStaffs = createAsyncThunk(
+  'staffs/fetchAll',
+  async (_, thunkAPI) => {
+    try {
+      const staffs = await staffAPI.fetchAll();
+      return thunkAPI.fulfillWithValue(staffs);
+
+      // return staffs;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 export const fetchStaffsSalary = createAsyncThunk(
   'staffs/fetchAll',
-  async () => {
-    const staffs = await staffAPI.fetchAllwithSalary();
-    return staffs;
+  async (_, thunkAPI) => {
+    try {
+      const staffs = await staffAPI.fetchAllwithSalary();
+      return thunkAPI.fulfillWithValue(staffs);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
 );
 
 export const fetchStaffsByDeptId = createAsyncThunk(
   'staffs/fetchStaffsByDeptId',
   async (deptId, thunkAPI) => {
-    const staffs = await staffAPI.fetchByDeptId(deptId);
-    return staffs;
+    try {
+      const data = await staffAPI.fetchByDeptId(deptId);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
 );
 
 export const addStaff = createAsyncThunk(
   'staffs/addStaff',
   (newStaff, thunkAPI) => {
-    return staffAPI.addOne(newStaff).then((staffs) => staffs.at(-1)); //! ES2022 get lastEle
-  }
-);
-
-export const deleteStaff = createAsyncThunk(
-  'staffs/deleteStaff',
-  async (staffId, thunkAPI) => {
-    const staffs = staffAPI.deleteOne(staffId);
-    return staffs;
+    return staffAPI.addOne(newStaff);
   }
 );
 
 export const editStaff = createAsyncThunk(
   'staffs/editStaff',
   async (staff, thunkAPI) => {
-    const editedStaff = staffAPI.editOne(staff);
-    return editedStaff;
+    try {
+      const editedStaff = await staffAPI.editOne(staff);
+      console.log('editedStaff', editedStaff);
+      return thunkAPI.fulfillWithValue(editedStaff);
+    } catch (error) {
+      alert(
+        `Lỗi ${error.message}. Bạn không thể chỉnh sữa nhân viên lúc này, xin vui lòng thử lại sau!`
+      );
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const deleteStaff = createAsyncThunk(
+  'staffs/deleteStaff',
+  async (staffId, thunkAPI) => {
+    try {
+      const staffs = await staffAPI.deleteOne(staffId);
+      return thunkAPI.fulfillWithValue(staffs);
+    } catch (error) {
+      alert(
+        `Lỗi ${error.message}. Bạn không thể xóa nhân viên lúc này, xin vui lòng thử lại sau!`
+      );
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
 );
 
@@ -70,6 +109,19 @@ const staffsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(fetchStaffById.pending, (state) => {
+      state.entities = [];
+      state.loading = 'pending';
+    });
+    builder.addCase(fetchStaffById.fulfilled, (state, action) => {
+      state.loading = 'succeeded';
+      state.entities = action.payload;
+    });
+    builder.addCase(fetchStaffById.rejected, (state, action) => {
+      state.loading = 'failed';
+      state.entities = [];
+      state.errorMessage = action.payload;
+    });
     builder.addCase(fetchStaffs.pending, (state) => {
       state.loading = 'pending';
     });
@@ -79,6 +131,7 @@ const staffsSlice = createSlice({
     });
     builder.addCase(fetchStaffs.rejected, (state, action) => {
       state.loading = 'failed';
+      state.entities = [];
       state.errorMessage = action.payload;
     });
     builder.addCase(addStaff.pending, (state) => {
@@ -96,7 +149,7 @@ const staffsSlice = createSlice({
       state.loading = 'pending';
     });
     builder.addCase(deleteStaff.fulfilled, (state, action) => {
-      state.loading = 'succeded';
+      state.loading = 'succeeded';
       state.entities = action.payload;
     });
     builder.addCase(deleteStaff.rejected, (state, action) => {
@@ -123,19 +176,7 @@ const staffsSlice = createSlice({
       state.loading = 'succeeded';
       state.entities = action.payload;
     });
-    builder.addCase(fetchStaffsByDeptId, (state, action) => {
-      state.loading = 'failed';
-      state.errorMessage = action.payload;
-    });
-    builder.addCase(fetchStaffById.pending, (state) => {
-      state.loading = 'pending';
-      state.entities = [];
-    });
-    builder.addCase(fetchStaffById.fulfilled, (state, action) => {
-      state.loading = 'succeeded';
-      state.entities = action.payload;
-    });
-    builder.addCase(fetchStaffById.rejected, (state, action) => {
+    builder.addCase(fetchStaffsByDeptId.rejected, (state, action) => {
       state.loading = 'failed';
       state.errorMessage = action.payload;
     });

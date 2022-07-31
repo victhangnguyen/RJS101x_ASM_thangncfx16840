@@ -17,9 +17,10 @@ import { fetchStaffById } from '../redux/features/staff/staffSlice';
 import { editStaff, deleteStaff } from '../redux/features/staff/staffSlice';
 //! imp Component
 import { EditStaffModal, YesNoModal } from './Modal';
+import Avatar from './AvatarComponent';
 
 //! presentational function Component
-function RenderStaff({ staff, handleEdit, handleConfirm }) {
+function RenderStaff({ entity, currentStaff, handleEdit, handleConfirm }) {
   return (
     <Card>
       <CardHeader className="px-3 py-2 d-flex align-items-center justify-content-between">
@@ -28,23 +29,29 @@ function RenderStaff({ staff, handleEdit, handleConfirm }) {
       <CardBody className="px-3">
         <Row>
           <Col sm={12} md={4} lg={3}>
-            <div className="card-avatar">
-              <img src={staff?.image} alt={staff.name} />
-            </div>
+            <Avatar
+              staffsLoading={entity.loading}
+              staffsErrMess={entity.errorMessage}
+              image={currentStaff?.image}
+              name={currentStaff?.name}
+            />
           </Col>
           <Col sm={8} md={4} lg={6}>
-            <p className="fw-bold">Họ và tên: {staff?.name}</p>
-            <p>Ngày sinh: {toVNDate(staff?.doB)}</p>
-            <p>Ngày vào công ty: {toVNDate(staff?.startDate)}</p>
-            <p>Phòng ban: {staff?.departmentId}</p>
-            <p>Số ngày nghỉ còn lại: {staff?.annualLeave}</p>
-            <p>Số ngày đã làm thêm: {staff?.overTime}</p>{' '}
+            <p className="fw-bold">Họ và tên: {currentStaff?.name}</p>
+            <p>Ngày sinh: {toVNDate(currentStaff?.doB)}</p>
+            <p>Ngày vào công ty: {toVNDate(currentStaff?.startDate)}</p>
+            <p>Phòng ban: {currentStaff?.departmentId}</p>
+            <p>Số ngày nghỉ còn lại: {currentStaff?.annualLeave}</p>
+            <p>Số ngày đã làm thêm: {currentStaff?.overTime}</p>{' '}
           </Col>
           <Col sm={4} md={4} lg={3}>
             {
               //! __btnEdit
             }
-            <EditStaffModal currentStaff={staff} handleEdit={handleEdit} />
+            <EditStaffModal
+              currentStaff={currentStaff}
+              handleEdit={handleEdit}
+            />
             {
               //! __btnDelete
             }
@@ -53,12 +60,10 @@ function RenderStaff({ staff, handleEdit, handleConfirm }) {
               buttonColor="danger"
               header="Xoá nhân viên"
               body="Bạn muốn xóa nhân viên này không?"
-              entity={staff}
+              entity={currentStaff}
               handleConfirm={handleConfirm}
             />
           </Col>
-          {/* <div className="col-12 col-md-4 col-lg-3"></div>
-          <div className="col-12 col-md-8 col-lg-9"></div> */}
         </Row>
       </CardBody>
     </Card>
@@ -77,27 +82,19 @@ function StaffDetail() {
   React.useEffect(() => {
     dispatch(fetchStaffById(params.staffId));
   }, []);
-  // console.log('%c_loadingStaffDetail: ', 'color: blue; font-weight: bold', staff.loading); //! __DEBUG
-
-  // console.log(
-  //   '%c_Render Staff Detail: ',
-  //   'color: green; font-weight: bold',
-  //   currentStaff
-  // ); //! __DEBUG
 
   const handleEdit = (staffValues) => {
     dispatch(editStaff(staffValues));
-  };
-
-  const handleDelete = (staffId) => {
-    if (staffId === currentStaff.id) {
-      dispatch(deleteStaff(currentStaff.id));
-      // console.log('%c_Hello: ', 'color: red; font-weight: bold', staffId); //! __DEBUG
-      navigate('../staffs', { replace: true });
+    if (staff.loading === 'failed') {
     }
   };
-  //! guard clause
-  if (!currentStaff) return <></>;
+
+  const handleDelete = (staffId) => {    
+    if (String(staffId) === String(currentStaff.id)) {
+      dispatch(deleteStaff(currentStaff.id));
+      navigate('../', { replace: true });
+    }
+  };
 
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">
@@ -110,7 +107,8 @@ function StaffDetail() {
       <div className="row">
         <div className="col-12">
           <RenderStaff
-            staff={currentStaff}
+            entity={staff}
+            currentStaff={currentStaff}
             handleEdit={handleEdit}
             handleConfirm={handleDelete}
           />

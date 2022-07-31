@@ -6,12 +6,18 @@ import * as departmentAPI from '../departmentAPI';
 const initialState = {
   loading: 'idle',
   entities: [],
+  errorMessage: null,
 };
 
 export const fetchDepartments = createAsyncThunk(
   'departments/fetchAll',
-  (arg, thunkAPI) => {
-    return departmentAPI.fetchAll().then((deparments) => deparments);
+  async (_, thunkAPI) => {
+    try {
+      const departments = await departmentAPI.fetchAll();
+      return thunkAPI.fulfillWithValue(departments);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
 );
 
@@ -30,6 +36,7 @@ const departmentsSlide = createSlice({
     builder.addCase(fetchDepartments.rejected, (state, action) => {
       state.loading = 'failed';
       state.entities = [];
+      state.errorMessage = action.payload;
     });
   },
 });

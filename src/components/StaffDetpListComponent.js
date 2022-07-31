@@ -111,6 +111,24 @@ function StaffDeptListComponent(props) {
     // dispatch(addStaff(staff));
   };
 
+  const render = function () {
+    if (staffs.loading === 'pending') {
+      return (
+        <div className="row">
+          <Loading />
+        </div>
+      );
+    } else if (staffs.loading === 'failed') {
+      return (
+        <div className="row">
+          <h3>{staffs.errorMessage}</h3>
+        </div>
+      );
+    } else if (staffs.loading === 'succeeded') {
+      return <div className="row">{staffsList}</div>;
+    }
+  };
+
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5 mx-md-5">
       <div className="hm-title">
@@ -182,8 +200,7 @@ function StaffDeptListComponent(props) {
           </Row>
         </FormGroup>
       </Form>
-
-      <div className="row">{staffsList}</div>
+      {render()}
     </div>
   );
 }

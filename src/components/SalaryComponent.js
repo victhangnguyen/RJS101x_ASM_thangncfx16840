@@ -11,15 +11,13 @@ import {
   Input,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { sortBy } from '../utils';
+import { sortBy, numberWithCommas } from '../utils';
 //! imp RTK
 import { useDispatch, useSelector } from 'react-redux';
 //! imp RTK Actions
 import { fetchStaffsSalary } from '../redux/features/staff/staffSlice';
-
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-}
+//! imp Components
+import Loading from './LoadingComponent';
 
 //! presentational function component
 function RenderStaff({ staff }) {
@@ -77,6 +75,24 @@ function SalaryComponent() {
     });
   };
 
+  const render = function () {
+    if (staffs.loading === 'pending') {
+      return (
+        <div className="row">
+          <Loading />
+        </div>
+      );
+    } else if (staffs.loading === 'failed') {
+      return (
+        <div className="row">
+          <h3>{staffs.errorMessage}</h3>
+        </div>
+      );
+    } else if (staffs.loading === 'succeeded') {
+      return <div className="row">{staffList}</div>;
+    }
+  };
+
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">
       <div className="bread-crumb">
@@ -118,7 +134,7 @@ function SalaryComponent() {
           <hr />
         </div>
       </div>
-      <div className="row">{staffList}</div>
+      {render()}
     </div>
   );
 }

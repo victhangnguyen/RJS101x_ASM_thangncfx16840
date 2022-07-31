@@ -29,14 +29,14 @@ function EditStaffModal({ currentStaff, handleEdit }) {
 
   const formik = useFormik({
     initialValues: {
-      id: currentStaff.id,
-      name: currentStaff.name,
-      doB: new Date(currentStaff.doB).toISOString().split('T'),
-      startDate: new Date(currentStaff.startDate).toISOString().split('T'),
-      salaryScale: currentStaff.salaryScale,
-      departmentId: currentStaff.departmentId,
-      annualLeave: currentStaff.annualLeave,
-      overTime: currentStaff.overTime,
+      id: currentStaff?.id,
+      name: currentStaff?.name,
+      doB: new Date(currentStaff?.doB),
+      startDate: new Date(currentStaff?.startDate),
+      salaryScale: currentStaff?.salaryScale,
+      departmentId: currentStaff?.departmentId,
+      annualLeave: currentStaff?.annualLeave,
+      overTime: currentStaff?.overTime,
       image: '/assets/images/alberto.png',
     },
     validationSchema: Yup.object({
@@ -76,16 +76,16 @@ function EditStaffModal({ currentStaff, handleEdit }) {
 
   React.useEffect(() => {
     formik.setValues({
-      id: currentStaff.id,
-      name: currentStaff.name,
-      doB: new Date(currentStaff.doB),
-      startDate: new Date(currentStaff.startDate),
+      id: currentStaff?.id,
+      name: currentStaff?.name,
+      doB: new Date(currentStaff?.doB),
+      startDate: new Date(currentStaff?.startDate),
       // doB: currentStaff.doB,
       // startDate: currentStaff.startDate,
-      salaryScale: currentStaff.salaryScale,
-      departmentId: currentStaff.departmentId,
-      annualLeave: currentStaff.annualLeave,
-      overTime: currentStaff.overTime,
+      salaryScale: currentStaff?.salaryScale,
+      departmentId: currentStaff?.departmentId,
+      annualLeave: currentStaff?.annualLeave,
+      overTime: currentStaff?.overTime,
     });
   }, [currentStaff]);
 
@@ -100,7 +100,12 @@ function EditStaffModal({ currentStaff, handleEdit }) {
 
   return (
     <div>
-      <Button className='my-2' type="button" color="warning" onClick={toggleModal}>
+      <Button
+        className="my-2"
+        type="button"
+        color="warning"
+        onClick={toggleModal}
+      >
         Thay đổi thông tin
       </Button>
       <Modal isOpen={isModalOpen} toggle={toggleModal}>

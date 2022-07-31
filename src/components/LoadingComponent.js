@@ -1,12 +1,24 @@
 import React from 'react';
 
-function LoadingComponent() {
+function Loading(props) {
   return (
-    <div className="col-12">
-      <span className="fa fa-spinner fa-pulse fa-3x fa-fw text-primary" />
-      <p>Loading ... </p>
+    <div className={["w-100 d-flex justify-content-center " + props.className]}>
+      <div className="lds-spinner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   );
 }
 
-export default LoadingComponent;
+export default Loading;

@@ -10,7 +10,10 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 //! imp Actions
 import { fetchDepartments } from '../redux/features/department/departmentSlice';
-import staffSlice, { fetchStaffs } from '../redux/features/staff/staffSlice';
+import { fetchStaffs } from '../redux/features/staff/staffSlice';
+//! imp Component
+import Loading from './LoadingComponent';
+
 //! the Presentational Component
 function RenderDepartment({ id, name, numberOfStaff }) {
   return (
@@ -61,6 +64,25 @@ function Department() {
       numberOfStaff={department.numberOfStaff}
     />
   ));
+
+  const render = function () {
+    if (departments.loading === 'pending') {
+      return (
+        <div className="row">
+          <Loading />
+        </div>
+      );
+    } else if (departments.loading === 'failed') {
+      return (
+        <div className="row">
+          <h3>{departments.errorMessage}</h3>
+        </div>
+      );
+    } else if (staffs.loading === 'succeeded') {
+      return <div className="row">{departmentList}</div>;
+    }
+  };
+
   return (
     <div className="container-fuild my-2 my-md-3 mx-3 mx-md-5">
       <Breadcrumb>
@@ -73,7 +95,7 @@ function Department() {
         <h3>Phòng ban</h3>
         <hr />
       </div>
-      <div className="row">{departmentList}</div>
+      {render()}
     </div>
   );
 }

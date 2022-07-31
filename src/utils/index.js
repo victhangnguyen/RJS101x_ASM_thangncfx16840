@@ -1,4 +1,5 @@
 import { sortBy } from './sort';
-import { toVNDate } from './date'
+import { toVNDate } from './date';
+import { numberWithCommas } from './format';
 
-export { sortBy, toVNDate };
+export { sortBy, toVNDate, numberWithCommas };
