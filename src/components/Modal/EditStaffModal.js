@@ -16,24 +16,21 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-function EditStaffModal({ currentStaff, handleEdit }) {
-  // console.log(
-  //   '%c_editStaffModal: ',
-  //   'color: red; font-weight: bold',
-  //   currentStaff
-  // ); //! __DEBUG
+function EditStaffModal({ currentStaff, handleEdit, idx }) {
+  console.log('%c_idx: ', 'color: red; font-weight: bold', idx); //! __DEBUG
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   //! didUpdate whenever change date
+  let name = 'name' + idx;
 
   const formik = useFormik({
     initialValues: {
       id: currentStaff?.id,
       name: currentStaff?.name,
       doB: new Date(currentStaff?.doB),
-      startDate: new Date(currentStaff?.startDate),
-      salaryScale: currentStaff?.salaryScale,
+      // startDate: new Date(currentStaff?.startDate),
+      // salaryScale: currentStaff?.salaryScale,
       departmentId: currentStaff?.departmentId,
       annualLeave: currentStaff?.annualLeave,
       overTime: currentStaff?.overTime,
@@ -78,8 +75,10 @@ function EditStaffModal({ currentStaff, handleEdit }) {
     formik.setValues({
       id: currentStaff?.id,
       name: currentStaff?.name,
-      doB: new Date(currentStaff?.doB),
-      startDate: new Date(currentStaff?.startDate),
+      // doB: new Date(currentStaff?.doB),
+      // startDate: new Date(currentStaff?.startDate),
+      doB: '2001-01-01T08:59:00.000Z',
+      startDate: '2019-04-30T08:59:00.000Z',
       // doB: currentStaff.doB,
       // startDate: currentStaff.startDate,
       salaryScale: currentStaff?.salaryScale,

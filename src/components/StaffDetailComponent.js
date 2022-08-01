@@ -21,6 +21,9 @@ import Avatar from './AvatarComponent';
 
 //! presentational function Component
 function RenderStaff({ entity, currentStaff, handleEdit, handleConfirm }) {
+
+  console.log('%c_RenderStaff currentStaff: ', 'color: green; font-weight: bold', currentStaff); //! __DEBUG
+  
   return (
     <Card>
       <CardHeader className="px-3 py-2 d-flex align-items-center justify-content-between">
@@ -76,22 +79,25 @@ function StaffDetail() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const staff = useSelector((state) => state.staffs);
-  const currentStaff = staff.entities[0];
-
   React.useEffect(() => {
+
     dispatch(fetchStaffById(params.staffId));
   }, []);
 
+  const staff = useSelector((state) => state.staffs);
+  const curStaff = staff.entities[0]
+  // const [curStaff, setCurStaff] = React.useState(staff.entities[0]);
+  console.log('%c_StaffDetail loding: ', 'color: blue; font-weight: bold', staff.loading); //! __DEBUG
+  
+
   const handleEdit = (staffValues) => {
     dispatch(editStaff(staffValues));
-    if (staff.loading === 'failed') {
-    }
+    // setCurStaff(staffValues);
   };
 
-  const handleDelete = (staffId) => {    
-    if (String(staffId) === String(currentStaff.id)) {
-      dispatch(deleteStaff(currentStaff.id));
+  const handleDelete = (staffId) => {
+    if (String(staffId) === String(curStaff.id)) {
+      dispatch(deleteStaff(curStaff.id));
       navigate('../', { replace: true });
     }
   };
@@ -102,13 +108,13 @@ function StaffDetail() {
         <BreadcrumbItem>
           <Link to="/staffs">Nhân viên</Link>
         </BreadcrumbItem>
-        <BreadcrumbItem active>{currentStaff?.name}</BreadcrumbItem>
+        <BreadcrumbItem active>{curStaff?.name}</BreadcrumbItem>
       </Breadcrumb>
       <div className="row">
         <div className="col-12">
           <RenderStaff
             entity={staff}
-            currentStaff={currentStaff}
+            currentStaff={curStaff}
             handleEdit={handleEdit}
             handleConfirm={handleDelete}
           />
