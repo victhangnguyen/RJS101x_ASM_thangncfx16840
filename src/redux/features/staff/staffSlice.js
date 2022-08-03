@@ -15,8 +15,6 @@ export const fetchStaffById = createAsyncThunk(
       const staff = await staffAPI.fetchById(staffId);
       return thunkAPI.fulfillWithValue(staff);
     } catch (error) {
-      console.log('%c_rejected: ', 'color: red; font-weight: bold', error); //! __DEBUG
-
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -72,7 +70,6 @@ export const editStaff = createAsyncThunk(
   async (staff, thunkAPI) => {
     try {
       const editedStaff = await staffAPI.editOne(staff);
-      console.log('editedStaff', editedStaff);
       return thunkAPI.fulfillWithValue(editedStaff);
     } catch (error) {
       alert(
@@ -160,7 +157,7 @@ const staffsSlice = createSlice({
       state.loading = 'pending';
     });
     builder.addCase(editStaff.fulfilled, (state, action) => {
-      state.loading = 'succeded';
+      state.loading = 'succeeded';
       state.entities = action.payload;
     });
     builder.addCase(editStaff.rejected, (state, action) => {

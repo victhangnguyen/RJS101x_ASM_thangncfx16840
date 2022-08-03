@@ -3,99 +3,75 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  FormFeedback,
 } from 'reactstrap';
 
-//! imp formik
-import { useFormik } from 'formik';
+import { useForm, Controller } from 'react-hook-form';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
-function EditStaffModal({ currentStaff, handleEdit, idx }) {
-  console.log('%c_idx: ', 'color: red; font-weight: bold', idx); //! __DEBUG
+// //! imp formik
+// import { useFormik } from 'formik';
+// import * as Yup from 'yup';
 
+const schema = Yup.object().shape({
+  name: Yup.string()
+    .required('Yêu cầu nhập')
+    .min(3, 'Yều cầu nhiều hơn 2 ký tự')
+    .max(30, 'Yều cầu ít hơn 30 ký tự'),
+  // doB: Yup.date().required('Yêu nhập ngày, tháng, năm'),
+  // startDate: Yup.date().required('Yêu nhập ngày, tháng, năm'),
+  departmentId: Yup.string()
+    .required('Yêu cầu chọn phòng ban')
+    .min(2, 'Yều cầu nhiều hơn 1 ký tự')
+    .max(20, 'Yều cầu ít hơn 20 ký tự'),
+  salaryScale: Yup.number()
+    .required('Yêu cầu nhập')
+    .min(0.1, 'Yều cầu lớn hơn 0')
+    .max(5, 'Yều cầu nhỏ hơn 5'),
+  annualLeave: Yup.number()
+    .required('Yêu cầu nhập')
+    .max(30, 'Yều cầu nhỏ hơn số 30'),
+  overTime: Yup.number()
+    .required('Yêu cầu nhập')
+    .max(30, 'Yều cầu nhỏ hơn số 30'),
+});
+// .required();
+
+function EditStaffModal({ currentStaff, handleEdit }) {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  //! didUpdate whenever change date
-  let name = 'name' + idx;
-
-  const formik = useFormik({
-    initialValues: {
-      id: currentStaff?.id,
-      name: currentStaff?.name,
-      doB: new Date(currentStaff?.doB),
-      // startDate: new Date(currentStaff?.startDate),
-      // salaryScale: currentStaff?.salaryScale,
-      departmentId: currentStaff?.departmentId,
-      annualLeave: currentStaff?.annualLeave,
-      overTime: currentStaff?.overTime,
-      image: '/assets/images/alberto.png',
-    },
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .required('Yêu cầu nhập')
-        .min(3, 'Yều cầu nhiều hơn 2 ký tự')
-        .max(30, 'Yều cầu ít hơn 30 ký tự'),
-      doB: Yup.string().required('Yêu nhập ngày, tháng, năm'),
-      startDate: Yup.string().required('Yêu nhập ngày, tháng, năm'),
-      departmentId: Yup.string()
-        .required('Yêu cầu chọn phòng ban')
-        .min(2, 'Yều cầu nhiều hơn 1 ký tự')
-        .max(20, 'Yều cầu ít hơn 20 ký tự'),
-      salaryScale: Yup.number()
-        // .matches(/^[0-9]+$/, 'Chỉ nhận số từ 0 tới 9')
-        .required('Yêu cầu nhập')
-        .min(0.1, 'Yều cầu lớn hơn 0')
-        .max(5, 'Yều cầu nhỏ hơn 5'),
-      annualLeave: Yup.number()
-        .required('Yêu cầu nhập')
-        .max(30, 'Yều cầu nhỏ hơn số 30'),
-      overTime: Yup.number()
-        .required('Yêu cầu nhập')
-        .max(30, 'Yều cầu nhỏ hơn số 30'),
-    }),
-    onSubmit: (values) => {
-      console.log('handleSubmit');
-      if (formik.isValid && formik.dirty) {
-        // console.log(values);
-        // console.log('%c_onSubmit: ', 'color: red; font-weight: bold', values); //! __DEBUG
-        handleEdit(values);
-      }
-      formik.resetForm();
-      toggleModal();
-    },
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {},
+    resolver: yupResolver(schema),
   });
 
-  React.useEffect(() => {
-    formik.setValues({
-      id: currentStaff?.id,
-      name: currentStaff?.name,
-      // doB: new Date(currentStaff?.doB),
-      // startDate: new Date(currentStaff?.startDate),
-      doB: '2001-01-01T08:59:00.000Z',
-      startDate: '2019-04-30T08:59:00.000Z',
-      // doB: currentStaff.doB,
-      // startDate: currentStaff.startDate,
-      salaryScale: currentStaff?.salaryScale,
-      departmentId: currentStaff?.departmentId,
-      annualLeave: currentStaff?.annualLeave,
-      overTime: currentStaff?.overTime,
-    });
-  }, [currentStaff]);
-
   const handleCancel = function () {
-    formik.resetForm();
+    // formik.resetForm();
     toggleModal();
   };
 
   const toggleModal = function () {
     setIsModalOpen(!isModalOpen);
   };
+
+  // React.useEffect(() => {
+  //   if (currentStaff) {
+  //     console.log('ren');
+  //     reset({ name: 'hello' }, { doB: currentStaff.doB });
+  //   }
+  // }, []);
 
   return (
     <div>
@@ -108,7 +84,15 @@ function EditStaffModal({ currentStaff, handleEdit, idx }) {
         Thay đổi thông tin
       </Button>
       <Modal isOpen={isModalOpen} toggle={toggleModal}>
-        <Form onSubmit={formik.handleSubmit}>
+        <Form
+          noValidate
+          onSubmit={handleSubmit((data) => {
+            // console.log('%c_data: ', 'color: red; font-weight: bold', data); //! __DEBUG
+            data.id = currentStaff?.id;
+            handleEdit(data);
+            toggleModal();
+          })}
+        >
           <ModalHeader toggle={toggleModal}>Thêm nhân viên</ModalHeader>
           <ModalBody className="px-5">
             {
@@ -116,94 +100,81 @@ function EditStaffModal({ currentStaff, handleEdit, idx }) {
             }
             <FormGroup row>
               <Label htmlFor="name">Tên</Label>
-              <Input
+              <input
+                className="form-control"
                 id="name"
                 name="name"
                 type="text"
                 placeholder="Tên nhân viên"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.name}
-                valid={formik.touched.name && formik.errors.name === undefined}
-                invalid={
-                  formik.touched.name && formik.errors.name !== undefined
-                }
+                defaultValue={currentStaff?.name}
+                {...register('name', { required: true })}
               />
-              {formik.touched.name && formik.errors.name ? (
-                <FormFeedback>{formik.errors.name}</FormFeedback>
-              ) : null}
+              {errors.name && (
+                <p className="feedback">{errors.name?.message}</p>
+              )}
             </FormGroup>
             {
               //! __doB
             }
             <FormGroup row>
               <Label htmlFor="doB">Ngày sinh</Label>
-              <Input
-                id="doB"
+              <Controller
+                control={control}
                 name="doB"
-                type="date"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.doB}
-                valid={formik.touched.doB && formik.errors.doB === undefined}
-                invalid={formik.touched.doB && formik.errors.doB !== undefined}
+                render={({ field }) => (
+                  <DatePicker
+                    id="doB"
+                    className="form-control"
+                    placeholderText="Chọn ngày sinh"
+                    onChange={(date) => field.onChange(date)}
+                    selected={
+                      field.value ? field.value : new Date(currentStaff?.doB)
+                    }
+                  />
+                )}
               />
-              {formik.touched.doB && formik.errors.doB ? (
-                <FormFeedback>{formik.errors.doB}</FormFeedback>
-              ) : null}
-            </FormGroup>
-            <FormGroup row>
-              <Label htmlFor="doB">Ngày sinh</Label>
-              {formik.touched.doB && formik.errors.doB ? (
-                <FormFeedback>{formik.errors.doB}</FormFeedback>
-              ) : null}
+              {errors.doB && <p className="feedback">{errors.doB?.message}</p>}
             </FormGroup>
             {
               //! __startDate
             }
             <FormGroup row>
               <Label htmlFor="startDate">Ngày vào công ty</Label>
-              <Input
-                id="startDate"
+
+              <Controller
+                control={control}
                 name="startDate"
-                type="date"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.startDate}
-                valid={
-                  formik.touched.startDate &&
-                  formik.errors.startDate === undefined
-                }
-                invalid={
-                  formik.touched.startDate &&
-                  formik.errors.startDate !== undefined
-                }
+                render={({ field }) => (
+                  <DatePicker
+                    id="startDate"
+                    className="form-control"
+                    placeholderText="Select ngày vào công ty"
+                    onChange={(date) => field.onChange(date)}
+                    selected={
+                      field.value
+                        ? field.value
+                        : new Date(currentStaff?.startDate)
+                    }
+                  />
+                )}
               />
-              {formik.touched.startDate && formik.errors.startDate ? (
-                <FormFeedback>{formik.errors.startDate}</FormFeedback>
-              ) : null}
+              {errors.startDate && (
+                <p className="feedback">{errors.startDate?.message}</p>
+              )}
             </FormGroup>
             {
               //! __departmentId
             }
             <FormGroup row>
               <Label htmlFor="departmentId">Phòng ban</Label>
-              <Input
+              <select
                 id="departmentId"
                 name="departmentId"
                 type="select"
+                className="form-control"
                 placeholder="Tên phòng ban"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.departmentId}
-                valid={
-                  formik.touched.departmentId &&
-                  formik.errors.departmentId === undefined
-                }
-                invalid={
-                  formik.touched.departmentId &&
-                  formik.errors.departmentId !== undefined
-                }
+                defaultValue={currentStaff?.departmentId}
+                {...register('departmentId')}
               >
                 <option value="">Chọn phòng ban</option>
                 <option value="Dept01">#Dept01 - Sale </option>
@@ -211,97 +182,58 @@ function EditStaffModal({ currentStaff, handleEdit, idx }) {
                 <option value="Dept03">#Dept03 - Marketing </option>
                 <option value="Dept04">#Dept04 - IT</option>
                 <option value="Dept05">#Dept05 - Finance</option>
-              </Input>
-              {formik.touched.departmentId && formik.errors.departmentId ? (
-                <FormFeedback>{formik.errors.departmentId}</FormFeedback>
-              ) : null}
+              </select>
+              {errors.departmentId && (
+                <p className="feedback">{errors.departmentId?.message}</p>
+              )}
             </FormGroup>
             {
               //! __salaryScale
             }
             <FormGroup row>
               <Label htmlFor="salaryScale">Hệ số lương</Label>
-              <Input
+              <input
                 id="salaryScale"
                 name="salaryScale"
                 type="number"
+                className="form-control"
                 placeholder="Hệ số lương"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.salaryScale}
-                valid={
-                  formik.touched.salaryScale &&
-                  formik.errors.salaryScale === undefined
-                }
-                invalid={
-                  formik.touched.salaryScale &&
-                  formik.errors.salaryScale !== undefined
-                }
+                {...register('salaryScale')}
+                defaultValue={currentStaff?.salaryScale}
               />
-              {formik.touched.salaryScale && formik.errors.salaryScale ? (
-                <FormFeedback>{formik.errors.salaryScale}</FormFeedback>
-              ) : null}
             </FormGroup>
             {
               //! annualLeave
             }
             <FormGroup row>
               <Label htmlFor="annualLeave">Số ngày nghỉ còn lại</Label>
-              <Input
+              <input
                 id="annualLeave"
                 name="annualLeave"
                 type="number"
                 placeholder="Số ngày nghỉ còn lại"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.annualLeave}
-                valid={
-                  formik.touched.annualLeave &&
-                  formik.errors.annualLeave === undefined
-                }
-                invalid={
-                  formik.touched.annualLeave &&
-                  formik.errors.annualLeave !== undefined
-                }
+                {...register('annualLeave')}
+                defaultValue={currentStaff?.annualLeave}
               />
-              {formik.touched.annualLeave && formik.errors.annualLeave ? (
-                <FormFeedback>{formik.errors.annualLeave}</FormFeedback>
-              ) : null}
             </FormGroup>
             {
               //! overTime
             }
             <FormGroup row>
               <Label htmlFor="overTime">Số ngày nghỉ còn lại</Label>
-              <Input
+              <input
                 id="overTime"
                 name="overTime"
                 type="number"
                 placeholder="Số ngày nghỉ còn lại"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.overTime}
-                valid={
-                  formik.touched.overTime &&
-                  formik.errors.overTime === undefined
-                }
-                invalid={
-                  formik.touched.overTime &&
-                  formik.errors.overTime !== undefined
-                }
+                {...register('overTime')}
+                defaultValue={currentStaff?.overTime}
               />
-              {formik.touched.overTime && formik.errors.overTime ? (
-                <FormFeedback>{formik.errors.overTime}</FormFeedback>
-              ) : null}
             </FormGroup>
           </ModalBody>
           <ModalFooter>
-            <Button
-              type="submit"
-              color="primary"
-              // disabled={!(formik.isValid && formik.dirty)}
-            >
-              Thêm
+            <Button type="submit" color="primary">
+              Thay đổi
             </Button>
             <Button color="secondary" onClick={handleCancel}>
               Hủy
@@ -312,5 +244,4 @@ function EditStaffModal({ currentStaff, handleEdit, idx }) {
     </div>
   );
 }
-
 export default EditStaffModal;

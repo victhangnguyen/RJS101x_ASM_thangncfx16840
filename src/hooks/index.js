@@ -1,3 +1,4 @@
 import useNavigateSearch from './useNavigateSearch';
+import withRouter from './withRouter'
 
-export { useNavigateSearch };
+export { useNavigateSearch, withRouter };

@@ -11,5 +11,5 @@ export const store = configureStore({
     staffs: staffsReducer,
     departments: departmentsReducer,
   },
-  // middleware: (gDM) => gDM().concat(logger),
+  middleware: (gDM) => gDM().concat(logger),
 });

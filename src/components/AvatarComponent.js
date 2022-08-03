@@ -1,11 +1,6 @@
 import React from 'react';
 
 function AvatarComponent({ staffsLoading, staffsErrMess, image, name }) {
-  // console.log(
-  //   '%c_staffsLoading: ',
-  //   'color: blue; font-weight: bold',
-  //   staffsLoading
-  // ); //! __DEBUG
 
   return (
     <div className="card-avatar-container">
@@ -28,8 +23,10 @@ function AvatarComponent({ staffsLoading, staffsErrMess, image, name }) {
             </div>
           </div>
         ) : staffsLoading === 'failed' ? (
-          <h3 className='card-avatar-center'>{staffsErrMess}</h3>
-        ) : <></>}
+          <h3 className="card-avatar-center">{staffsErrMess}</h3>
+        ) : (
+          <></>
+        )}
 
         {staffsLoading !== 'succeeded' ? (
           <img src="/assets/images/avatar-loading.png" alt="image-loading" />

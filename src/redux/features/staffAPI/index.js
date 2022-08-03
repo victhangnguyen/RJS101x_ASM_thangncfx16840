@@ -125,7 +125,7 @@ export const editOne = (staffValues) => {
           const data = response
             .json()
             .then((staffs) =>
-              staffs.find(
+              staffs.filter(
                 (staff) => String(staff.id) === String(staffValues.id)
               )
             );
