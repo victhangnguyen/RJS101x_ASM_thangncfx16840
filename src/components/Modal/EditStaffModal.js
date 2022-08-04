@@ -211,6 +211,7 @@ function EditStaffModal({ currentStaff, handleEdit }) {
                 id="annualLeave"
                 name="annualLeave"
                 type="number"
+                className="form-control"
                 placeholder="Số ngày nghỉ còn lại"
                 {...register('annualLeave')}
                 defaultValue={currentStaff?.annualLeave}
@@ -225,6 +226,7 @@ function EditStaffModal({ currentStaff, handleEdit }) {
                 id="overTime"
                 name="overTime"
                 type="number"
+                className="form-control"
                 placeholder="Số ngày nghỉ còn lại"
                 {...register('overTime')}
                 defaultValue={currentStaff?.overTime}
