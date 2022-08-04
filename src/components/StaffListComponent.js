@@ -76,10 +76,10 @@ function StaffListComponent(props) {
   const staffsList = sortBy(
     staffs.entities?.filter((staff) => {
       //! question tie
-      const name = staff?.name.toLowerCase().replace(/ +/g, '');
+      const name = staff?.name?.toLowerCase().replace(/ +/g, '');
       return (
         String(staff.id) === keywordSearch ||
-        name.indexOf(keywordSearch.toLowerCase()) !== -1
+        name?.indexOf(keywordSearch?.toLowerCase()) !== -1
       );
     }),
     setting.sort
